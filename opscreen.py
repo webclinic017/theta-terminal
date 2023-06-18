@@ -502,7 +502,7 @@ with col4:
         symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
 
 if not subm:
-st.write("Filter for Tickers to continue...")
+            st.write("Filter for Tickers to continue...")
 
     #else:
         #symbols = st.sidebar.multiselect(
