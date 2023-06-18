@@ -29,7 +29,7 @@ hide_st_style = """
             </style>
             """
 
-st.markdown(hide_st_style, unsafe_allow_html=True)
+#st.markdown(hide_st_style, unsafe_allow_html=True)
 
 import seaborn as sns
 sns.set_palette('Set3')
@@ -655,6 +655,8 @@ with col:
 
     st.markdown(
         "[![Foo](https://em-content.zobj.net/thumbs/120/sony/336/envelope_2709-fe0f.png)](https://twitter.com/mvnchi0)")
+
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
 
 
