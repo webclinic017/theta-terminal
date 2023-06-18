@@ -492,7 +492,6 @@ with col4:
         df = foverview.screener_view(sleep_sec=0)[['Ticker\n\n']]
         return df
 
-
     #if Index or Sector or Industry or Market_Cap or Price or Performance or Current_Volume or Average_Volume or Earnings_Date or Pattern or Candlestick or RSI or ATR or SMA20 or SMA50 or SMA200 or Volatility or Analyst or d20_HL or W52_HL:
     if subm:
         foverview.set_filter(filters_dict=filters_dict)
@@ -501,6 +500,15 @@ with col4:
         #df = foverview.screener_view()
         #list = df['Ticker\n\n'].values.tolist()
         symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
+     try:
+                 df = filter_data()
+                 
+     if df is not None:
+                 symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
+                 
+     except:
+                 st.write("Filter for Tickers to continue...")
+
 
     #else:
         #symbols = st.sidebar.multiselect(
