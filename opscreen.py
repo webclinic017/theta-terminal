@@ -23,6 +23,7 @@ st.set_page_config(page_title="tʰɛːta Terminal", page_icon="⏳ ", layout="wi
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
+            .reportview-container .main footer {visibility: hidden;} 
             header {visibility: hidden;}
             footer {visibility: hidden;}
             </style>
