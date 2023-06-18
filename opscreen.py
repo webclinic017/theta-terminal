@@ -360,6 +360,7 @@ with col2:
             submitted = st.form_submit_button(label='Search 🔎')
             if submitted:
                 subm = True
+                st.session_state.model1_computed = True
 
 
             def reset():
@@ -482,21 +483,25 @@ with col4:
                     'Volatility': Volatility, 'Analyst Recom.': Analyst, '20-Day High/Low': d20_HL,
                     '52-Week High/Low': W52_HL}
 
+    if "filter_computed" not in st.session_state:
+        st.session_state.filter_computed = False
+
 
     @st.cache_data(show_spinner=False)
     def filter_data():
-        df = foverview.screener_view(sleep_sec=0)[['Ticker\n\n']]
-        return df
+        fd = foverview.screener_view(sleep_sec=0)[['Ticker\n\n']]
+        return fd
 
 
     # if Index or Sector or Industry or Market_Cap or Price or Performance or Current_Volume or Average_Volume or Earnings_Date or Pattern or Candlestick or RSI or ATR or SMA20 or SMA50 or SMA200 or Volatility or Analyst or d20_HL or W52_HL:
-    if subm:
+    if subm or st.session_state.filter_computed:
         foverview.set_filter(filters_dict=filters_dict)
         #df = foverview.screener_view(sleep_sec=0)[['Ticker\n\n']]
-        df = filter_data()
+        fd = filter_data()
         #df = foverview.screener_view()
         #list = df['Ticker\n\n'].values.tolist()
-        symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
+        symbols = st.sidebar.multiselect('Selected Tickers',fd['Ticker\n\n'].values.tolist() ,fd['Ticker\n\n'].values.tolist())
+        
 
     else:
         symbols = st.sidebar.multiselect(
@@ -506,7 +511,7 @@ with col4:
              'KBE', 'USO', 'KRE', 'UGA', 'URNM', 'WCLD', 'UNG', 'DBC', 'XLRE', 'KWEB', 'X', 'COPX', 'SLV', 'XLF',
              'XME', 'GDX', 'JETS', 'KIE', 'IGF',
              'FCX', 'NEM'])
-        
+
 with st.container():
     cpad1, col, pad2 = st.columns((1, 60, 10))
 
