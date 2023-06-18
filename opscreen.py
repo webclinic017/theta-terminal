@@ -502,11 +502,8 @@ with col4:
     try:
         symbols = int(symbols)
     except:
-        st.error("Please make sure that you only enter a number")
+        st.error("Filter for Tickers to continue...")
         st.stop()
-
-if not subm:
-    st.write("Filter for Tickers to continue...")
 
 # else:
 # symbols = st.sidebar.multiselect(
