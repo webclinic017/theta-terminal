@@ -500,15 +500,16 @@ with col4:
         #df = foverview.screener_view()
         #list = df['Ticker\n\n'].values.tolist()
         symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
-     try:
-                 df = filter_data()
-                 
-     if df is not None:
-                 symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
-                 
-     except:
-                 st.write("Filter for Tickers to continue...")
 
+try:
+    df = filter_data()
+
+if df is not None:
+    symbols = st.sidebar.multiselect('Selected Tickers', df['Ticker\n\n'].values.tolist(),
+                                     df['Ticker\n\n'].values.tolist())
+
+except:
+st.write("Filter for Tickers to continue...")
 
     #else:
         #symbols = st.sidebar.multiselect(
