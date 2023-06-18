@@ -504,7 +504,7 @@ with col4:
 try:
     tickers = Ticker(symbols)
 
-if tickers is not None:
+if symbols is not None:
     st.write('You can check the currrent Ticker selection in the sidebar')
 
 except:
