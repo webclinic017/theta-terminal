@@ -492,21 +492,21 @@ with col4:
     # if Index or Sector or Industry or Market_Cap or Price or Performance or Current_Volume or Average_Volume or Earnings_Date or Pattern or Candlestick or RSI or ATR or SMA20 or SMA50 or SMA200 or Volatility or Analyst or d20_HL or W52_HL:
     if subm:
         foverview.set_filter(filters_dict=filters_dict)
-        # df = foverview.screener_view(sleep_sec=0)[['Ticker\n\n']]
+        #df = foverview.screener_view(sleep_sec=0)[['Ticker\n\n']]
         df = filter_data()
-        # df = foverview.screener_view()
-        # list = df['Ticker\n\n'].values.tolist()
-        symbols = st.sidebar.multiselect('Selected Tickers', df['Ticker\n\n'].values.tolist(),
-                                         df['Ticker\n\n'].values.tolist())
+        #df = foverview.screener_view()
+        #list = df['Ticker\n\n'].values.tolist()
+        symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
 
-else:
-symbols = st.sidebar.multiselect(
-    'Selected Tickers', list,
-    ['VTWO', 'SPHD', 'QQQJ', 'SPLG', 'TUR', 'EWJ', 'EWZ', 'FXI', 'URA', 'EWG', 'EWU', 'FEZ', 'SPTI', 'SIL',
-     'SPLB', 'EEM', 'CIBR', 'DBA',
-     'KBE', 'USO', 'KRE', 'UGA', 'URNM', 'WCLD', 'UNG', 'DBC', 'XLRE', 'KWEB', 'X', 'COPX', 'SLV', 'XLF',
-     'XME', 'GDX', 'JETS', 'KIE', 'IGF','FCX', 'NEM'])
-
+    else:
+        symbols = st.sidebar.multiselect(
+            'Selected Tickers', list,
+            ['VTWO', 'SPHD', 'QQQJ', 'SPLG', 'TUR', 'EWJ', 'EWZ', 'FXI', 'URA', 'EWG', 'EWU', 'FEZ', 'SPTI', 'SIL',
+             'SPLB', 'EEM', 'CIBR', 'DBA',
+             'KBE', 'USO', 'KRE', 'UGA', 'URNM', 'WCLD', 'UNG', 'DBC', 'XLRE', 'KWEB', 'X', 'COPX', 'SLV', 'XLF',
+             'XME', 'GDX', 'JETS', 'KIE', 'IGF',
+             'FCX', 'NEM'])
+        
 with st.container():
     cpad1, col, pad2 = st.columns((1, 60, 10))
 
