@@ -395,7 +395,8 @@ with col1:
     st.write("### Option Screener")
 if st.button("Refresh/ Reload Data"):
             streamlit_js_eval(js_expressions="parent.window.location.reload()")
-            st.text('Last Updated:' + " " + str(heute_uhrzeit))
+st.text('Last Updated:' + " " + str(heute_uhrzeit))
+            
             
     #if st.button("Refresh/ Reload Data"):
         #pyautogui.hotkey("ctrl", "F5")
