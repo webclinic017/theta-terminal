@@ -12,7 +12,7 @@ import pandas_market_calendars as mcal
 from finvizfinance.quote import finvizfinance
 from finvizfinance.news import News
 from finvizfinance.screener.overview import Overview
-import pyautogui
+from streamlit_js_eval import streamlit_js_eval
 import numpy as np
 import base64
 import pytz
@@ -393,11 +393,11 @@ with st.container():
     col1, col2, col3, col4, col5 = st.columns([1,1,1,1,1],gap= "small")
 with col1:
     st.write("### Option Screener")
-    if st.button("Refresh/ Reload Data"):
-        pyautogui.hotkey("ctrl", "F5")
-
-
-
+if st.button("Refresh/ Reload Data"):
+            streamlit_js_eval(js_expressions="parent.window.location.reload()")
+            
+    #if st.button("Refresh/ Reload Data"):
+        #pyautogui.hotkey("ctrl", "F5")
     st.text('Last Updated:' + " " + str(heute_uhrzeit))
 st.write(' ____________________________________')
 
