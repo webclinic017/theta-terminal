@@ -18,6 +18,8 @@ import base64
 import pytz
 
 
+st.set_page_config(page_title="tʰɛːta Terminal", page_icon="⏳ ", layout="wide", initial_sidebar_state="collapsed", menu_items=None)
+
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -29,7 +31,6 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
-st.set_page_config(page_title="tʰɛːta Terminal", page_icon="⏳ ", layout="wide", initial_sidebar_state="collapsed", menu_items=None)
 import seaborn as sns
 sns.set_palette('Set3')
 
