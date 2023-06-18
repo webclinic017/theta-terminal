@@ -501,13 +501,7 @@ with col4:
         #list = df['Ticker\n\n'].values.tolist()
         symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
 
-try:
-    tickers = Ticker(symbols)
-
-if symbols is not None:
-    st.write('You can check the currrent Ticker selection in the sidebar')
-
-except:
+if not subm:
 st.write("Filter for Tickers to continue...")
 
     #else:
@@ -523,7 +517,7 @@ with st.container():
     cpad1, col, pad2 = st.columns((1, 60, 10))
 
 with col:
-    #tickers = Ticker(symbols)
+    tickers = Ticker(symbols)
     #@st.cache_data(show_spinner=False)  # 👈 Add the caching decorator
     #def load_tickers():
         #tickers = Ticker(symbols)
