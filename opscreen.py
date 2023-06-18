@@ -500,7 +500,7 @@ with col4:
                                          df['Ticker\n\n'].values.tolist())
 
     try:
-        symbols = int(symbols)
+        symbols = symbols
     except:
         st.error("Filter for Tickers to continue...")
         st.stop()
