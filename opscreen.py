@@ -502,14 +502,14 @@ with col4:
         #list = df['Ticker\n\n'].values.tolist()
         symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
 
-    else:
-        symbols = st.sidebar.multiselect(
-            'Selected Tickers', list,
-            ['VTWO', 'SPHD', 'QQQJ', 'SPLG', 'TUR', 'EWJ', 'EWZ', 'FXI', 'URA', 'EWG', 'EWU', 'FEZ', 'SPTI', 'SIL',
-             'SPLB', 'EEM', 'CIBR', 'DBA',
-             'KBE', 'USO', 'KRE', 'UGA', 'URNM', 'WCLD', 'UNG', 'DBC', 'XLRE', 'KWEB', 'X', 'COPX', 'SLV', 'XLF',
-             'XME', 'GDX', 'JETS', 'KIE', 'IGF',
-             'FCX', 'NEM'])
+    #else:
+        #symbols = st.sidebar.multiselect(
+            #'Selected Tickers', list,
+            #['VTWO', 'SPHD', 'QQQJ', 'SPLG', 'TUR', 'EWJ', 'EWZ', 'FXI', 'URA', 'EWG', 'EWU', 'FEZ', 'SPTI', 'SIL',
+             #'SPLB', 'EEM', 'CIBR', 'DBA',
+             #'KBE', 'USO', 'KRE', 'UGA', 'URNM', 'WCLD', 'UNG', 'DBC', 'XLRE', 'KWEB', 'X', 'COPX', 'SLV', 'XLF',
+             #'XME', 'GDX', 'JETS', 'KIE', 'IGF',
+             #'FCX', 'NEM'])
 
 with st.container():
     cpad1, col, pad2 = st.columns((1, 60, 10))
