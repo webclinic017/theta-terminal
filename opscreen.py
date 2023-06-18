@@ -24,6 +24,7 @@ hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
             .embeddedAppMetaInfoBar_container__LZA_B  {visibility: hidden;} 
+            .styles_terminalButton__3xUnY {visibility: hidden;}
             header {visibility: hidden;}
             footer {visibility: hidden;}
             </style>
