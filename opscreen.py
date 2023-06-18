@@ -23,6 +23,7 @@ st.set_page_config(page_title="tʰɛːta Terminal", page_icon="⏳ ", layout="wi
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
+            .viewerBadge_container__1QSob {visibility: hidden;} 
             .embeddedAppMetaInfoBar_container__LZA_B  {visibility: hidden;} 
             .styles_terminalButton__3xUnY {visibility: hidden;}
             header {visibility: hidden;}
