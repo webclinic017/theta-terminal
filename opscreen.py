@@ -500,6 +500,12 @@ with col4:
         #df = foverview.screener_view()
         #list = df['Ticker\n\n'].values.tolist()
         symbols = st.sidebar.multiselect('Selected Tickers',df['Ticker\n\n'].values.tolist() ,df['Ticker\n\n'].values.tolist())
+        
+    try:
+        symbols = int(symbols)
+    except:
+        st.error("Please make sure that you only enter a number")
+        st.stop()
 
 if not subm:
             st.write("Filter for Tickers to continue...")
@@ -517,7 +523,8 @@ with st.container():
     cpad1, col, pad2 = st.columns((1, 60, 10))
 
 with col:
-    tickers = Ticker(symbols)
+            if subm:
+                        tickers = Ticker(symbols)
     #@st.cache_data(show_spinner=False)  # 👈 Add the caching decorator
     #def load_tickers():
         #tickers = Ticker(symbols)
