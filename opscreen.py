@@ -92,7 +92,7 @@ with col1:
       </head>
       <body>
        <div class="main-div">
-        <image src ="https://drive.google.com/uc?export=download&id=1QgEx2DGkzt_v-s2a_g9IEi80jRQ7oZl6" width="100" height="100" controls controlsList="nodownload"></image>
+        <image src ="https://drive.google.com/uc?export=download&id=1c2BvCO-czwcLjArQl8lLy35cNTpuUWio" width="100" height="100" controls controlsList="nodownload"></image>
 
     <script type="text/javascript">
     //Script for disabling right click on mouse
