@@ -407,7 +407,7 @@ def color_negative_red(value):
 
 x = x.reset_index()
 d = dict.fromkeys(x.select_dtypes('float').columns, "{:.2f}")
-st.dataframe(x.style.applymap(color_negative_red, subset=['%Change']).format(d), height=1000, use_container_width=True)
+st.dataframe(x.head(100).style.applymap(color_negative_red, subset=['%Change']).format(d), height=1000, use_container_width=True)
 
 
 @st.cache_data
