@@ -44,7 +44,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 
 subm = False
 
-DETA_KEY = st.secrets(["DETA_KEY"])
+DETA_KEY = st.secrets["DETA_KEY"]
 
 
 deta = Deta(DETA_KEY)
