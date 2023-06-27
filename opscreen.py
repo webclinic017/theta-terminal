@@ -13,7 +13,7 @@ from finvizfinance.quote import finvizfinance
 from finvizfinance.news import News
 from finvizfinance.screener.overview import Overview
 from streamlit_js_eval import streamlit_js_eval
-
+from pathlib import Path
 from deta import Deta
 
 import numpy as np
