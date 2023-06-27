@@ -253,8 +253,8 @@ with col:
 
 @st.cache_data(show_spinner=True)
 def cached_optData():
-    df1 = pd.read_parquet(path + '/options_all.parquet')
-    df2 = pd.read_parquet(path + '/options_etf.parquet')
+    df1 = pd.read_parquet(path + '/options_all.parquet',engine='fastparquet')
+    df2 = pd.read_parquet(path + '/options_etf.parquet',engine='fastparquet')
     #df2 = pd.read_parquet(r'/tempDir/options_etf.parquet')
     df = pd.concat([df1, df2])
     return df
