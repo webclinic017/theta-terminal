@@ -231,7 +231,13 @@ with st.container():
 
 with col:
     path = os.path.dirname(__file__)
-    
+
+#df1 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
+#df2 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
+#df = pd.concat([df1,df2])
+
+@st.cache_data(show_spinner=True)
+def cached_optData():
     data_all = drive.get("options_all.parquet")
     with open("options_all.parquet", "wb+") as f:
         for chunk in data_all.iter_chunks(4096):
@@ -243,18 +249,8 @@ with col:
         for chunk in data_etf.iter_chunks(4096):
             f.write(chunk)
         data_etf.close()
-
-
-
-
-#df1 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
-#df2 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
-#df = pd.concat([df1,df2])
-
-@st.cache_data(show_spinner=True)
-def cached_optData():
-    df1 = pd.read_parquet(path + '/options_all.parquet',engine='fastparquet')
-    df2 = pd.read_parquet(path + '/options_etf.parquet',engine='fastparquet')
+    df1 = pd.read_parquet(path + '/options_all.parquet')
+    df2 = pd.read_parquet(path + '/options_etf.parquet')
     #df2 = pd.read_parquet(r'/tempDir/options_etf.parquet')
     df = pd.concat([df1, df2])
     return df
