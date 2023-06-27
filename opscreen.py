@@ -412,8 +412,8 @@ d = dict.fromkeys(x.select_dtypes('float').columns, "{:.2f}")
 
 @st.cache_data
 def dataframe_filter():
-x_filtered = dataframe_explorer(x, case=False)
-return x_filtered
+  x_filtered = dataframe_explorer(x, case=False)
+  return x_filtered
 
 x_filtered = dataframe_filter()
 st.dataframe(x_filtered.head(100).style.applymap(color_negative_red, subset=['%Change']).format(d), height=1000, use_container_width=True)
