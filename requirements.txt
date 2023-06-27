@@ -3,6 +3,7 @@ matplotlib==3.7.1
 numpy==1.23.4
 deta
 openbb==2.5.1
+pathlib
 pandas==1.5.3
 pandas_market_calendars==3.2
 PyAutoGUI==0.9.54
