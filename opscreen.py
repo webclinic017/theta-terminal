@@ -16,6 +16,7 @@ from streamlit_js_eval import streamlit_js_eval
 from pathlib import Path
 from deta import Deta
 import os
+from streamlit_extras.dataframe_explorer import dataframe_explorer
 
 import numpy as np
 import base64
@@ -407,11 +408,13 @@ def color_negative_red(value):
 
 x = x.reset_index()
 d = dict.fromkeys(x.select_dtypes('float').columns, "{:.2f}")
-st.dataframe(x.head(100).style.applymap(color_negative_red, subset=['%Change']).format(d), height=1000, use_container_width=True)
+
+x_filtered = dataframe_explorer(x, case=False)
+st.dataframe(x_filtered.head(100).style.applymap(color_negative_red, subset=['%Change']).format(d), height=1000, use_container_width=True)
 
 
 @st.cache_data
-def convert_df(x):
+def convert_df(x_filtered):
     return x.to_csv(index=False).encode('utf-8')
 
 
