@@ -15,6 +15,7 @@ from finvizfinance.screener.overview import Overview
 from streamlit_js_eval import streamlit_js_eval
 from pathlib import Path
 from deta import Deta
+import os
 
 import numpy as np
 import base64
@@ -229,21 +230,19 @@ with st.container():
     cpad1, col, pad2 = st.columns((1, 60, 10))
 
 with col:
-    save_folder = 'F:/tmp'
-
     data_all = drive.get("options_all.parquet")
-    save_path = Path(save_folder, "options_all.parquet")
-    with open(save_path, mode='wb+') as f:
+    with open(os.path.join("tempDir", "options_all.parquet"), "wb+") as f:
         for chunk in data_all.iter_chunks(4096):
             f.write(chunk)
         data_all.close()
 
     data_etf = drive.get("options_etf.parquet")
-    save_path2 = Path(save_folder, "options_etf.parquet")
-    with open(save_path2, mode='wb+') as f:
+    with open(os.path.join("tempDir", "options_etf.parquet"), "wb+") as f:
         for chunk in data_etf.iter_chunks(4096):
             f.write(chunk)
         data_etf.close()
+
+
 
 
 #df1 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
@@ -252,8 +251,8 @@ with col:
 
 @st.cache_data(show_spinner=True)
 def cached_optData():
-    df1 = pd.read_parquet(r'F:/tmp/options_all.parquet')
-    df2 = pd.read_parquet(r'F:/tmp/options_etf.parquet')
+    df1 = pd.read_parquet(r'/tempDir/options_all.parquet')
+    df2 = pd.read_parquet(r'/tempDir/options_etf.parquet')
     df = pd.concat([df1, df2])
     return df
 
