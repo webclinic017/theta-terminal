@@ -44,7 +44,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 
 subm = False
 
-DETA_KEY = st.secrets["DETA_KEY"])
+DETA_KEY = st.secrets(["DETA_KEY"])
 
 
 deta = Deta(DETA_KEY)
@@ -257,7 +257,7 @@ def cached_optData():
     df = pd.concat([df1, df2])
     return df
 
-
+df = cached_optData()
 df = df.xs(type, level=2).reset_index()
 
 
