@@ -252,8 +252,8 @@ with col:
 
 @st.cache_data(show_spinner=True)
 def cached_optData():
-    df1 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
-    df2 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
+    df1 = pd.read_parquet(r'F:/tmp/options_all.parquet')
+    df2 = pd.read_parquet(r'F:/tmp/options_etf.parquet')
     df = pd.concat([df1, df2])
     return df
 
