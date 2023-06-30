@@ -17,7 +17,8 @@ from pathlib import Path
 from deta import Deta
 import os
 #from streamlit_extras.dataframe_explorer import dataframe_explorer
-
+from alpaca.data.historical import StockHistoricalDataClient
+from alpaca.data.requests import StockLatestQuoteRequest
 import numpy as np
 import base64
 import pytz
@@ -215,70 +216,13 @@ with col1:
         "Option Type",
         ('puts', 'calls'))
 with col2:
-    ETFs = ['ACWI', 'ACWX', 'AGG', 'AMLP', 'ANGL', 'ARKG', 'ARKK', 'ASHR', 'BIL', 'BITI', 'BITO', 'BIV', 'BKLN', 'BND',
-            'BNDX',
-            'BOIL', 'BOTZ', 'BSV', 'COWZ', 'CWB', 'DBC', 'DFAC', 'DGRO', 'DIA', 'DPST', 'DRIP', 'DUST', 'EEM', 'EFA',
-            'EFV', 'EMB',
-            'EMLC', 'EWA', 'EWC', 'EWG', 'EWH', 'EWJ', 'EWT', 'EWU', 'EWW', 'EWY', 'EWZ', 'EZU', 'FAS', 'FAZ', 'FDL',
-            'FEZ', 'FLOT',
-            'FLRN', 'FNDF', 'FPE', 'FTSM', 'FVD', 'FXI', 'FXN', 'GDX', 'GDXJ', 'GLD', 'GOVT', 'HIBS', 'HYG', 'HYLB',
-            'IAU', 'IBB',
-            'ICLN', 'ICSH', 'IEF', 'IEFA', 'IEI', 'IEMG', 'IGIB', 'IGSB', 'IJH', 'IJR', 'INDA', 'IQLT', 'ITB', 'ITOT',
-            'IUSB',
-            'IVV', 'IVW', 'IWD', 'IWF', 'IWM', 'IWN', 'IWR', 'IXUS', 'IYR', 'JDST', 'JEPI', 'JEPQ', 'JETS', 'JNK',
-            'JNUG',
-            'JPST', 'KBE', 'KBWB', 'KOLD', 'KRE', 'KWEB', 'LABD', 'LABU', 'LQD', 'MBB', 'MCHI', 'MJ', 'MSOS', 'MUB',
-            'NUGT',
-            'NVDS', 'OUNZ', 'PDBC', 'PFF', 'PGX', 'PSQ', 'QID', 'QLD', 'QQQ', 'QQQM', 'QUAL', 'QYLD', 'RSP', 'RWM',
-            'RYLD',
-            'SARK', 'SCHD', 'SCHE', 'SCHF', 'SCHG', 'SCHH', 'SCHO', 'SCHP', 'SCHR', 'SCHX', 'SCO', 'SDOW', 'SDS',
-            'SGOL',
-            'SH', 'SHV', 'SHY', 'SHYG', 'SILJ', 'SJNK', 'SLV', 'SMH', 'SOXL', 'SOXS', 'SOXX', 'SPAB', 'SPDN', 'SPDW',
-            'SPEM',
-            'SPIB', 'SPLG', 'SPLV', 'SPSB', 'SPTI', 'SPTL', 'SPTS', 'SPXL', 'SPXS', 'SPXU', 'SPY', 'SPYD', 'SPYG',
-            'SPYV',
-            'SQQQ', 'SRLN', 'SSO', 'SVIX', 'SVXY', 'TBT', 'TECL', 'TECS', 'TFLO', 'TIP', 'TLT', 'TMF', 'TNA', 'TQQQ',
-            'TSLL',
-            'TSLQ', 'TWM', 'TZA', 'UCO', 'UDOW', 'UNG', 'UPRO', 'URA', 'USFR', 'USHY', 'USMV', 'USO', 'UUP', 'UVIX',
-            'UVXY',
-            'VCIT', 'VCLT', 'VCSH', 'VEA', 'VEU', 'VGIT', 'VGK', 'VGLT', 'VGSH', 'VIXY', 'VMBS', 'VNQ', 'VOO', 'VT',
-            'VTEB',
-            'VTI', 'VTIP', 'VTV', 'VTWO', 'VWO', 'VXUS', 'VXX', 'VYM', 'WEBL', 'XBI', 'XHB', 'XLB', 'XLC', 'XLE', 'XLF',
-            'XLI', 'XLK', 'XLP', 'XLRE', 'XLU', 'XLV', 'XLY', 'XME', 'XOP', 'XRT', 'YANG', 'YINN']
-
-
-#### Filter :)
-
-    #list_1 = ['1', '2', '3', '4']
-    #list_2 = ['a', 'b', 'c', 'd']
-    #list_3 = ['!', '?', '€', '%']
-
-    #lists = {
-        #'List 1': list_1,
-        #'List 2': list_2,
-        #'List 3': list_3
-    #}
-
-    #choice = st.multiselect('Choose List', lists.keys())
-
-    #st.write('You selected:', [lists[x] for x in choice if x in lists.keys()])
-
-    #selected = []
-    #for i in choice:
-        #selected.extend(lists[i])
-
-    #st.write("Combine lists that you selected", selected)
-
-
-
-
     OTM = st.number_input('%OTM (min)', value=5)
     choice = None
 
-    sector  = st.multiselect('Sector:',['Basic Materials', 'Consumer Cyclical',
-                            'Consumer Defensive','Communication Services',
-                            'Energy','ETF','Financial','Healthcare','Industrials',
-                            'Real Estate','Technology'])
+    #sector  = st.multiselect('Sector:',['Basic Materials', 'Consumer Cyclical',
+                            #'Consumer Defensive','Communication Services',
+                            #'Energy','ETF','Financial','Healthcare','Industrials',
+                            #'Real Estate','Technology'],'Basic Materials')
 
 
     select_text = "Nothing Selected"
@@ -311,40 +255,23 @@ with col:
 #df1 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
 #df2 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
 #df = pd.concat([df1,df2])
-data_all = drive.get("options_all.parquet")
-with open("options_all.parquet", "wb+") as f:
-    for chunk in data_all.iter_chunks(4096):
-        f.write(chunk)
-    data_all.close()
 
-data_etf = drive.get("options_etf.parquet")
-with open("options_etf.parquet", "wb+") as f:
-    for chunk in data_etf.iter_chunks(4096):
-        f.write(chunk)
-    data_etf.close()
 
-df1 = pd.read_parquet(path + '/options_all.parquet')
-df2 = pd.read_parquet(path + '/options_etf.parquet')
 
 @st.cache_data(show_spinner=True)
 def cached_optData():
-    df_all = pd.concat([df1, df2])
-    return df_all
+    data_sorted = drive.get("options_sorted.parquet")
+    with open("options_sorted.parquet", "wb+") as f:
+        for chunk in data_sorted.iter_chunks(4096):
+            f.write(chunk)
+        data_sorted.close()
 
-sector_helper = drive.get("sector_helper.csv")
-with open("sector_helper.csv", "wb+") as f:
-    for chunk in sector_helper.iter_chunks(4096):
-        f.write(chunk)
-    sector_helper.close()
+    df = pd.read_parquet(path + '/options_sorted.parquet')
+    return df
 
-sector_helper = pd.read_csv(path + '/sector_helper.csv',index_col=0)
-
-df_all = cached_optData()
-df_all = df_all.reset_index()
-mixed = df_all.set_index('symbol').join(sector_helper.set_index('symbol'))
-mixed = mixed.reset_index().set_index(['symbol','expiration','optionType'])
-df = mixed.xs('puts', level=2).reset_index()
-
+raw = cached_optData()
+df = raw.reset_index(drop=True).set_index(['symbol','expiration','optionType'])
+df = df.xs(type, level=2).reset_index()
 
 symbols = ['A', 'AA', 'AAL', 'AAP', 'AAPL', 'ABBV', 'ABNB', 'ABR', 'ABT', 'ADBE', 'ADI', 'ADM', 'AEHR', 'AEM', 'AFRM',
            'AG', 'AGNC', 'AI', 'AIG', 'ALB', 'ALGM', 'AMAT', 'AMC', 'AMD', 'AMT', 'AMZN', 'APA', 'APLD', 'APLS', 'APO',
@@ -392,53 +319,47 @@ symbols = ['A', 'AA', 'AAL', 'AAP', 'AAPL', 'ABBV', 'ABNB', 'ABR', 'ABT', 'ADBE'
             'XLF', 'XLI', 'XLK', 'XLP', 'XLRE', 'XLU', 'XLV', 'XLY', 'XME', 'XOP', 'XRT', 'YANG', 'YINN','BITI', 'BITO', 'BIV',
             'BKLN', 'BND', 'BNDX']
 
-
-
-
-
-tickers = Ticker(symbols)
-
-close = tickers.history(period='2d', interval='1m')
-
-columnsTitles = ['symbol','strike','expiration', 'lastPrice', 'percentChange','bid','ask','openInterest','impliedVolatility','Sector',
-                 'lastTradeDate']
-df = df.reindex(columns=columnsTitles)
-df['ROC'] = round((df['lastPrice'] / df['strike'] * 100), 2)
-df['expiration'] = pd.to_datetime(df.expiration)
-df['lastTradeDate'] = pd.to_datetime(df.lastTradeDate)
-
+#tickers = Ticker(symbols)
+#close = tickers.history(period='2d', interval='1m')
 # df = df[df['lastTradeDate'] >= datetime.today().strftime("%Y-%m-%d")]
 
 def calculate_days(expiration):
     today = pd.Timestamp('today')
     return (today - expiration).days * -1
 
-
 df['DTE'] = df['expiration'].apply(lambda x: calculate_days(x))
 
-
 df["Contract Time"] = np.where(df["DTE"] >= 21, ">= 21", "< 21")
-
-df.style.set_properties(**{'background-color': 'black',
-                           'color': 'green'})
-
 
 def percentage_change(col1, col2):
     return ((col2 - col1) / col1) * 100
 
-
 df = df.set_index('symbol')
 
-df2 = close['close']
-l = df2.reset_index()
-l['Last Price'] = l.groupby('symbol')['close'].transform('last')
-l['Yesterday'] = l.groupby('symbol')['close'].transform('first')
-l['Change'] = round(percentage_change(l['Yesterday'], l['Last Price']))
-l = l.set_index('symbol')
-l_ = l.drop_duplicates(subset=['Last Price'])
-s = l_.reset_index().drop(['date', 'close', 'Yesterday'], axis=1)
-s = s.set_index('symbol')
-x = df.join(s)
+api-key = st.secrets["api-key"]
+secret = st.secrets["secret"]
+
+
+data_client = StockHistoricalDataClient(api-key, secret)
+request_params = StockLatestQuoteRequest(symbol_or_symbols=symbols)
+quotes = data_client.get_stock_latest_bar(request_params)
+
+close = pd.DataFrame.from_dict({k: dict(v) for k,v in quotes.items()}, orient='index').reset_index(drop=True)
+close = close[['symbol','close']]
+close = close.rename(columns={'close': 'Last Price'})
+close = close.set_index('symbol')
+x = df.join(close)
+
+#df2 = close['close']
+#l = df2.reset_index()
+#l['Last Price'] = l.groupby('symbol')['close'].transform('last')
+#l['Yesterday'] = l.groupby('symbol')['close'].transform('first')
+#l['Change'] = round(percentage_change(l['Yesterday'], l['Last Price']))
+#l = l.set_index('symbol')
+#l_ = l.drop_duplicates(subset=['Last Price'])
+#s = l_.reset_index().drop(['date', 'close', 'Yesterday'], axis=1)
+#s = s.set_index('symbol')
+#x = df.join(s)
 
 if type == 'puts':
     x['% OTM'] = round(percentage_change(x['strike'], x['Last Price']))
@@ -468,21 +389,23 @@ if today_str in nyse_schedule.index:
     x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today()))]
 else:
     x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today() - timedelta(days=3)))]
-    # x = x[x['Last Trade Date']] >= pd.to_datetime(today_str) - timedelta(days=3)
+
+#x = x[x['Last Trade Date']] >= pd.to_datetime(today_str) - timedelta(days=3)
 
 # x = x[x['Last Trade Date'] >= datetime.today().strftime("%Y-%m-%d")]
 x = x[x['DTE'] <= DTE]
 x = x.loc[x['% OTM'].between(OTM, 100)]
 x = x.loc[x['ROC'].between(ROC, 100)]
 x = x.loc[x['IV'].between(IV, 1000)]
-########################################################x = x[x['Sector'].str.contains('|'.join(sector))]
+#x = x[x['Sector'].str.contains('|'.join(sector))]
+#x = x[x['Sector'].isin(sector)]
 
 #x = x.loc[sector.isin(x['Sector'])]
 #x= x.loc[x['Sector'].isin(sector)]
 
 x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
 
-x = x.sort_values('ROC', ascending=False)
+#x = x.sort_values('ROC', ascending=False)
 
 # def color_negative_red(val):
 # color = 'green' if val > 0 else 'red'
