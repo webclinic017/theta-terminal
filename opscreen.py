@@ -336,11 +336,11 @@ def percentage_change(col1, col2):
 
 df = df.set_index('symbol')
 
-api-key = st.secrets["api-key"]
+api_key = st.secrets["api_key"]
 secret = st.secrets["secret"]
 
 
-data_client = StockHistoricalDataClient(api-key, secret)
+data_client = StockHistoricalDataClient(api_key, secret)
 request_params = StockLatestQuoteRequest(symbol_or_symbols=symbols)
 quotes = data_client.get_stock_latest_bar(request_params)
 
