@@ -451,9 +451,6 @@ def convert_df(filtered_df):
 
 csv = convert_df(filtered_df)
 
-
-st.write("#")
-st.write("#")
 with st.expander("Index Description"):
   st.markdown(
       """
