@@ -254,10 +254,10 @@ with col3:
     ROC = st.number_input('ROC (min)', 0, 100, value=2)
 with col4:
     IV = st.number_input('IV (min)', 0, 1000, value=10)
-  st.write("#")
-  st.write("#")
-  with st.expander("Index Description"):
-    st.markdown(
+st.write("#")
+st.write("#")
+with st.expander("Index Description"):
+  st.markdown(
       """
 | Index              | Description                                                                                                                         |
 |--------------------|-------------------------------------------------------------------------------------------------------------------------------------|
