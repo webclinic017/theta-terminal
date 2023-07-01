@@ -208,7 +208,7 @@ with col5:
     st.metric(label="VIX", value=data_vix['Price'].iloc[0], delta=str(data_vix['%Chg'].iloc[0]) + '%')
 
 with st.container():
-    col1, col2 = st.columns([10, 5])
+    col1, col2 = st.columns([10, 2])
 
 with col1:
     st.write("### News")
@@ -217,7 +217,7 @@ with col1:
     st.dataframe(all_news['news'].head(10).set_index('Date'), use_container_width=True, height=200)
 
 with col2:
-  st.write("### Index Description")
+  st.write("###")
   with st.expander(""):
     st.markdown(
       """
