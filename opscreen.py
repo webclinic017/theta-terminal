@@ -33,6 +33,7 @@ hide_st_style = """
             #MainMenu {visibility: hidden;}
             .viewerBadge_container__1QSob {visibility: hidden;} 
             .embeddedAppMetaInfoBar_container__LZA_B  {visibility: hidden;} 
+            .viewerBadge_container__1QSob styles_viewerBadge__1yB5_ {visibility: hidden;} 
             .styles_terminalButton__3xUnY {visibility: hidden;}
             header {visibility: hidden;}
             footer {visibility: hidden;}
