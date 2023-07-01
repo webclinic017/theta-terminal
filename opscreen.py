@@ -218,7 +218,8 @@ with col1:
 
 with col2:
   with st.expander("See explanation"):
-    st.markdown('
+    st.markdown(
+      """
 | Index              | Description                                                                                                                         |
 |--------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | Symbol             | Stock Ticker                                                                                                                        |
@@ -235,7 +236,8 @@ with col2:
 | Annual Yield       | Annual yield of contract if closed at 100% each time                                                                                |
 | Sector             | Indentified sector of the company                                                                                                   |
 | Contract Timeframe | range to contract expiration (< 21 days / >= 21 days)                                                                               |
-')
+"""
+)
 
 
 with st.container():
