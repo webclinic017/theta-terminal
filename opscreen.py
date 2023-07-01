@@ -355,9 +355,16 @@ close = close.rename(columns={'close': 'Last Price'})
 close = close.set_index('symbol')
 x = df.join(close)
 
+today_start = datetime.date.today()
+nyse = mcal.get_calendar('NYSE')
+date =  pd.to_datetime(today_start) - pd.tseries.offsets.CustomBusinessDay(1, holidays = nyse.holidays().holidays)
+start_date = date.strftime('%Y-%m-%d %H:%M:%S')
+
+
 request_params = StockBarsRequest(
                         symbol_or_symbols=symbols,
-                        timeframe=TimeFrame.Day)
+                        timeframe=TimeFrame.Day,
+                        start=start_date)
 
 bars = data_client.get_stock_bars(request_params)
 bars_df = bars.df.reset_index()
@@ -391,7 +398,8 @@ nyse_schedule = nyse.schedule(start_date=start_date, end_date=end_date)
 if today_str in nyse_schedule.index:
     x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today()))]
 else:
-    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today() - timedelta(days=3)))]
+    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date)]
+   #x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today() - timedelta(days=3)))]
 
 #x = x[x['Last Trade Date']] >= pd.to_datetime(today_str) - timedelta(days=3)
 
