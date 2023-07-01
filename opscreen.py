@@ -208,7 +208,7 @@ with col5:
     st.metric(label="VIX", value=data_vix['Price'].iloc[0], delta=str(data_vix['%Chg'].iloc[0]) + '%')
 
 with st.container():
-    col1, col2 = st.columns([5, 10])
+    col1, col2 = st.columns([8, 10])
 
 with col1:
     st.write("### News")
