@@ -217,7 +217,8 @@ with col1:
     st.dataframe(all_news['news'].head(10).set_index('Date'), use_container_width=True, height=200)
 
 with col2:
-  with st.expander("Index Description"):
+  st.write("### Index Description"")
+  with st.expander(""):
     st.markdown(
       """
 | Index              | Description                                                                                                                         |
