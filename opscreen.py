@@ -208,13 +208,39 @@ with col5:
     st.metric(label="VIX", value=data_vix['Price'].iloc[0], delta=str(data_vix['%Chg'].iloc[0]) + '%')
 
 with st.container():
-    col1, col2 = st.columns([8, 10])
+    col1, col2 = st.columns([10, 10])
 
 with col1:
     st.write("### News")
     fnews = News()
     all_news = fnews.get_news()
     st.dataframe(all_news['news'].head(10).set_index('Date'), use_container_width=True, height=200)
+
+with col2:
+  with st.expander("Index Description"):
+    st.markdown(\"\"\"
+                | Index              | Description                                                                                                                         |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| Symbol             | Stock Ticker                                                                                                                        |
+| Strike             | Strike price of option contract                                                                                                     |
+| Expiration         | Contract expiration date                                                                                                            |
+| DTE                | Days to expiration                                                                                                                  |
+| Bid                | Contract bid price                                                                                                                  |
+| Ask                | Contract ask price                                                                                                                  |
+| Mark               | Contract mark price (Midprice between bid and ask prices)                                                                           |
+| % OTM              | How far strike price is away from the current stock price (% out-of-the-money)                                                      |
+| IV                 | (Implied Volatility) (captures the market's view of the likelihood of movement in a given security's price)                         |
+| Open Int           | (Open Interest) Total number of outstanding option contracts that can provide a more accurate picture of its liquidity and interest |
+| ROC                | (Return on Capital) Expected % return of a contract based on capital used if closed at 100% profit                                  |
+| Annual Yield       | Annual yield of contract if closed at 100% each time                                                                                |
+| Sector             | Indentified sector of the company                                                                                                   |
+| Contract Timeframe | range to contract expiration (< 21 days / >= 21 days)                                                                               |
+             
+
+             
+        
+        
+    \"\"\")
 
 with st.container():
     col1, col2, col3, col4, col5 = st.columns([5, 5, 5, 5, 5], gap="small")
