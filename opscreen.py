@@ -218,7 +218,7 @@ with col1:
 
 with col2:
   with st.expander("Index Description"):
-    st.markdown(\"\"\"
+    st.markdown(
                 | Index              | Description                                                                                                                         |
 |--------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | Symbol             | Stock Ticker                                                                                                                        |
@@ -240,7 +240,7 @@ with col2:
              
         
         
-    \"\"\")
+)
 
 with st.container():
     col1, col2, col3, col4, col5 = st.columns([5, 5, 5, 5, 5], gap="small")
