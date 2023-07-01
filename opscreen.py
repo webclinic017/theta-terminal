@@ -436,10 +436,10 @@ def color_negative_red(value):
 x = x.sort_values('ROC', ascending=False)
 x = x.reset_index()
 d = dict.fromkeys(x.select_dtypes('float').columns, "{:.2f}")
-
-#x = x[x['symbol'].isin(sector)]
+x['symbol'] = x['symbol'].astype('category')
+x['Sector'] = x['Sector'].astype('category')
 filtered_df = dataframe_explorer(x, case=False)
-
+filtered_df['expiration'] = pd.to_datetime(filtered_df['expiration']).dt.strftime('%Y-%m-%d')
 st.dataframe(filtered_df.head(500).style.applymap(color_negative_red, subset=['%Change']).format(d), height=1000, use_container_width=True)
 
 
