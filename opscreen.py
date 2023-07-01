@@ -392,13 +392,12 @@ x = x.reindex(columns=columnsTitles)
 today_str = date.today().strftime("%Y-%m-%d")
 start_date = date.today() - timedelta(days=3)
 end_date = date.today() + timedelta(days=5)
-nyse = mcal.get_calendar('NYSE')
 nyse_schedule = nyse.schedule(start_date=start_date, end_date=end_date)
 # display(nyse_schedule)
 if today_str in nyse_schedule.index:
     x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today()))]
 else:
-    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date)]
+    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date))]
    #x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today() - timedelta(days=3)))]
 
 #x = x[x['Last Trade Date']] >= pd.to_datetime(today_str) - timedelta(days=3)
