@@ -16,9 +16,11 @@ from streamlit_js_eval import streamlit_js_eval
 from pathlib import Path
 from deta import Deta
 import os
-#from streamlit_extras.dataframe_explorer import dataframe_explorer
+from streamlit_extras.dataframe_explorer import dataframe_explorer
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockLatestQuoteRequest
+from alpaca.data.timeframe import TimeFrame
+from alpaca.data.requests import StockBarsRequest
 import numpy as np
 import base64
 import pytz
@@ -328,7 +330,6 @@ def calculate_days(expiration):
     return (today - expiration).days * -1
 
 df['DTE'] = df['expiration'].apply(lambda x: calculate_days(x))
-
 df["Contract Time"] = np.where(df["DTE"] >= 21, ">= 21", "< 21")
 
 def percentage_change(col1, col2):
@@ -338,7 +339,6 @@ df = df.set_index('symbol')
 
 api_key = st.secrets["api_key"]
 secret = st.secrets["secret"]
-
 
 data_client = StockHistoricalDataClient(api_key, secret)
 request_params = StockLatestQuoteRequest(symbol_or_symbols=symbols)
@@ -350,24 +350,22 @@ close = close.rename(columns={'close': 'Last Price'})
 close = close.set_index('symbol')
 x = df.join(close)
 
-#df2 = close['close']
-#l = df2.reset_index()
-#l['Last Price'] = l.groupby('symbol')['close'].transform('last')
-#l['Yesterday'] = l.groupby('symbol')['close'].transform('first')
-#l['Change'] = round(percentage_change(l['Yesterday'], l['Last Price']))
-#l = l.set_index('symbol')
-#l_ = l.drop_duplicates(subset=['Last Price'])
-#s = l_.reset_index().drop(['date', 'close', 'Yesterday'], axis=1)
-#s = s.set_index('symbol')
-#x = df.join(s)
+request_params = StockBarsRequest(
+                        symbol_or_symbols=symbols,
+                        timeframe=TimeFrame.Day)
+
+bars = data_client.get_stock_bars(request_params)
+bars_df = bars.df.reset_index()
+
+bars_df = bars_df.set_index('symbol')
+x['Change'] = round(percentage_change(bars_df['open'], bars_df['close']))
 
 if type == 'puts':
     x['% OTM'] = round(percentage_change(x['strike'], x['Last Price']))
 if type == 'calls':
-    x['% OTM'] = round((x['strike'] * 100 / x['Last Price'])) - 100
+    x['% OTM'] = round((x['strike'] * 100 / x['Last Price'])) -100
 
 x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
-
 x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
 
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '%Change', 'impliedVolatility': 'IV',
@@ -405,7 +403,7 @@ x = x.loc[x['IV'].between(IV, 1000)]
 
 x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
 
-#x = x.sort_values('ROC', ascending=False)
+
 
 # def color_negative_red(val):
 # color = 'green' if val > 0 else 'red'
@@ -423,21 +421,22 @@ def color_negative_red(value):
             color = "red"
             return 'color: %s' % color
 
-
+x = x.sort_values('ROC', ascending=False)
 x = x.reset_index()
 d = dict.fromkeys(x.select_dtypes('float').columns, "{:.2f}")
 
 #x = x[x['symbol'].isin(sector)]
+filtered_df = dataframe_explorer(x, case=False)
 
-st.dataframe(x.head(100).style.applymap(color_negative_red, subset=['%Change']).format(d), height=1000, use_container_width=True)
+st.dataframe(filtered_df.head(500).style.applymap(color_negative_red, subset=['%Change']).format(d), height=1000, use_container_width=True)
 
 
 @st.cache_data
-def convert_df(x):
-    return x.to_csv(index=False).encode('utf-8')
+def convert_df(filtered_df):
+    return filtered_df.to_csv(index=False).encode('utf-8')
 
 
-csv = convert_df(x)
+csv = convert_df(filtered_df)
 
 st.download_button(
     "Download Table",
