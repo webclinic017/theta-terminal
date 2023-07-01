@@ -218,7 +218,8 @@ with col1:
 
 with col2:
   with st.expander("See explanation"):
-    st.markdown('| Index              | Description                                                                                                                         |
+    st.markdown('
+| Index              | Description                                                                                                                         |
 |--------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | Symbol             | Stock Ticker                                                                                                                        |
 | Strike             | Strike price of option contract                                                                                                     |
