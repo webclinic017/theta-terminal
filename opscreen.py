@@ -42,8 +42,13 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 import seaborn as sns
-
 sns.set_palette('Set3')
+
+with open('./files/wave.css') as f:
+    css = f.read()
+
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
