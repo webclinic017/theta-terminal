@@ -378,6 +378,9 @@ bars_df = bars.df.reset_index()
 bars_df = bars_df.set_index('symbol')
 x['Change'] = round(percentage_change(bars_df['open'], bars_df['close']))
 
+x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
+x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
+
 if type == 'puts':
     x['% OTM'] = round(percentage_change(x['strike'], x['Last Price']))
     x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta.round(5) for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
@@ -387,9 +390,6 @@ if type == 'calls':
     x['% OTM'] = round((x['strike'] * 100 / x['Last Price'])) -100
     x['Delta'] = [mb.BS([i,j,1,k], volatility=l).callDelta.round(5) for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
     x['Theta'] = [mb.BS([i,j,1,k], volatility=l).callTheta.round(5) for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
-
-x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
-x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
 
 ###Option Greeks
 
