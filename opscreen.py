@@ -228,6 +228,7 @@ with col1:
     type = st.radio(
         "Option Type",
         ('puts', 'calls'))
+  st.write(type == 'puts')
 with col2:
     OTM = st.number_input('%OTM (min)', value=5)
     choice = None
