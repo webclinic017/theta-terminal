@@ -444,7 +444,7 @@ def color_negative_red(value):
 x['ROC'] = x['ROC'].astype(str) + '%'
 x['Annual Yield'] = x['Annual Yield'].astype(str) + '%'
 x['IV'] = x['IV'].astype(str) + '%'
-x['Moneyness'] = x['Moneyness'].map("{:,.2f}%".format)
+
 
 x = x.sort_values('ROC', ascending=False)
 x = x.reset_index()
