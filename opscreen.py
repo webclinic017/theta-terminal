@@ -216,7 +216,7 @@ with col1:
     fnews = News()
     all_news = fnews.get_news()
 with st.expander("Top 10 News Today",expanded=True):
-  st.markdown(all_news['news'].head(10).set_index('Date').to_markdown())
+  st.dataframe(all_news['news'].head(10).set_index('Date'),use_container_width=True, height=200) #.to_markdown())
     #st.dataframe(all_news['news'].head(10).set_index('Date'), use_container_width=True, height=200)
 
 
