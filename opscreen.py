@@ -376,7 +376,7 @@ bars = data_client.get_stock_bars(request_params)
 bars_df = bars.df.reset_index()
 
 bars_df = bars_df.set_index('symbol')
-x['Change'] = round(percentage_change(bars_df['open'], bars_df['close']))
+x['Change'] = round(percentage_change(bars_df['open'], bars_df['close'])).astype(str) + '%'
 
 x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
 x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
@@ -389,9 +389,9 @@ if type == 'calls':
   x['% OTM'] = round((x['strike'] * 100 / x['Last Price'])) -100
   x['BE'] = x['strike'] + x['lastPrice']
 
-x = x.rename(columns={'lastPrice': 'Mark', 'Change': '%Change', 'impliedVolatility': 'IV','% OTM' : 'Moneyness',
+x = x.rename(columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV','% OTM' : 'Moneyness',
                       'lastTradeDate': 'Last Trade Date','bid': 'Bid','ask': 'Ask','openInterest':'Open Int'})
-columnsTitles = ['strike', 'expiration','DTE','Last Price','%Change','Bid','Ask','Mark','BE','ROC','Annual Yield',
+columnsTitles = ['strike', 'expiration','DTE','Last Price','% Day Change','Bid','Ask','Mark','BE','ROC','Annual Yield',
                 'Open Int','Moneyness', 'IV','Sector','Contract Time', 'Last Trade Date']
 x = x.reindex(columns=columnsTitles)
 
@@ -440,6 +440,11 @@ def color_negative_red(value):
         if value < 0:
             color = "red"
             return 'color: %s' % color
+x['ROC'] = x['ROC'].astype(str) + '%'
+x['% Day Change'] = x['% Day Change'].astype(str) + '%'
+x['Annual Yield'] = x['Annual'].astype(str) + '%'
+x['IV'] = x['IV'].astype(str) + '%'
+x['Moneyness'] = x['Moneyness'].astype(str) + '%'
 
 x = x.sort_values('ROC', ascending=False)
 x = x.reset_index()
@@ -448,7 +453,7 @@ x['symbol'] = x['symbol'].astype('category')
 x['Sector'] = x['Sector'].astype('category')
 filtered_df = dataframe_explorer(x, case=False)
 filtered_df['expiration'] = pd.to_datetime(filtered_df['expiration']).dt.strftime('%Y-%m-%d')
-st.dataframe(filtered_df.head(500).style.applymap(color_negative_red, subset=['%Change','Moneyness']).format(d), height=1000, use_container_width=True)
+st.dataframe(filtered_df.head(500).style.applymap(color_negative_red, subset=['% Day Change','Moneyness']).format(d), height=1000, use_container_width=True)
 
 
 @st.cache_data
