@@ -215,7 +215,7 @@ with col1:
     st.write("### News")
     fnews = News()
     all_news = fnews.get_news()
-with st.expander("Top 10 News Today",expanded=True):
+with st.expander("Top 10 recent financial news",expanded=True):
   st.dataframe(all_news['news'].head(10).set_index('Date'),use_container_width=True, height=200) #.to_markdown())
     #st.dataframe(all_news['news'].head(10).set_index('Date'), use_container_width=True, height=200)
 
