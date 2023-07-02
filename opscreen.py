@@ -230,7 +230,7 @@ with col1:
         ('puts', 'calls'))
 
 with col2:
-    OTM = st.number_input('%OTM (min)', value=5)
+    OTM = st.number_input('%OTM (min)', value=-5)
     choice = None
 
     #sector  = st.multiselect('Sector:',['Basic Materials', 'Consumer Cyclical',
@@ -382,7 +382,7 @@ x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
 x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
 
 if type == 'puts':
-  x['% OTM'] = round(percentage_change(x['strike'], x['Last Price']))
+  x['% OTM'] = round(percentage_change(x['strike'], x['Last Price'])) * -1
   x['BE'] = x['strike'] - x['lastPrice']
 
 if type == 'calls':
@@ -412,7 +412,7 @@ else:
 
 # x = x[x['Last Trade Date'] >= datetime.today().strftime("%Y-%m-%d")]
 x = x[x['DTE'] <= DTE]
-x = x.loc[x['Moneyness'].between(OTM, 100)]
+x = x.loc[x['Moneyness'].between(OTM, -100)]
 x = x.loc[x['ROC'].between(ROC, 100)]
 x = x.loc[x['IV'].between(IV, 1000)]
 #x = x[x['Sector'].str.contains('|'.join(sector))]
