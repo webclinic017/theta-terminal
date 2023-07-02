@@ -388,14 +388,14 @@ x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 10
 
 ###Option Greeks
 
-#x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
-#x['Theta'] = [mb.BS([i,j,1,k], volatility=l).putTheta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
+x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
+x['Theta'] = [mb.BS([i,j,1,k], volatility=l).putTheta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
 
 
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '%Change', 'impliedVolatility': 'IV',
                       'lastTradeDate': 'Last Trade Date','bid': 'Bid','ask': 'Ask','openInterest':'Open Int'})
 columnsTitles = ['strike', 'expiration','DTE','Last Price','%Change','Bid','Ask','Mark','ROC','Annual Yield',
-                'Open Int','% OTM', 'IV','Sector','Contract Time', 'Last Trade Date']
+                'Delta','Theta','Open Int','% OTM', 'IV','Sector','Contract Time', 'Last Trade Date']
 x = x.reindex(columns=columnsTitles)
 
 # x['Last Trade Date'] = pd.to_datetime(x['Last Trade Date'], format="%Y-%m-%d")
