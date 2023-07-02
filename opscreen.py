@@ -442,7 +442,7 @@ def color_negative_red(value):
             return 'color: %s' % color
 x['ROC'] = x['ROC'].astype(str) + '%'
 x['% Day Change'] = x['% Day Change'].astype(str) + '%'
-x['Annual Yield'] = x['Annual'].astype(str) + '%'
+x['Annual Yield'] = x['Annual Yield'].astype(str) + '%'
 x['IV'] = x['IV'].astype(str) + '%'
 x['Moneyness'] = x['Moneyness'].astype(str) + '%'
 
