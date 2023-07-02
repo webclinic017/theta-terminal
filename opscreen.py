@@ -412,7 +412,7 @@ else:
 
 # x = x[x['Last Trade Date'] >= datetime.today().strftime("%Y-%m-%d")]
 x = x[x['DTE'] <= DTE]
-x = x.loc[x['% OTM'].between(OTM, 100)]
+x = x.loc[x['Moneyness'].between(OTM, 100)]
 x = x.loc[x['ROC'].between(ROC, 100)]
 x = x.loc[x['IV'].between(IV, 1000)]
 #x = x[x['Sector'].str.contains('|'.join(sector))]
