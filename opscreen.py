@@ -228,7 +228,7 @@ with col1:
     type = st.radio(
         "Option Type",
         ('puts', 'calls'))
-st.write(type == 'puts')
+
 with col2:
     OTM = st.number_input('%OTM (min)', value=5)
     choice = None
@@ -382,14 +382,14 @@ x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
 x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
 
 if type == 'puts':
-    x['% OTM'] = round(percentage_change(x['strike'], x['Last Price']))
-    x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
-    x['Theta'] = [mb.BS([i,j,1,k], volatility=l).putTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
+  x['% OTM'] = round(percentage_change(x['strike'], x['Last Price']))
+  x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
+  x['Theta'] = [mb.BS([i,j,1,k], volatility=l).putTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
   
 elif type == 'calls':
-    x['% OTM'] = round((x['strike'] * 100 / x['Last Price'])) -100
-    x['Delta'] = [mb.BS([i,j,1,k], volatility=l).callDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
-    x['Theta'] = [mb.BS([i,j,1,k], volatility=l).callTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
+  x['% OTM'] = round((x['strike'] * 100 / x['Last Price'])) -100
+  x['Delta'] = [mb.BS([i,j,1,k], volatility=l).callDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
+  x['Theta'] = [mb.BS([i,j,1,k], volatility=l).callTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
 
 ###Option Greeks
 
@@ -404,8 +404,9 @@ columnsTitles = ['strike', 'expiration','DTE','Last Price','%Change','Bid','Ask'
 x = x.reindex(columns=columnsTitles)
 
 # x['Last Trade Date'] = pd.to_datetime(x['Last Trade Date'], format="%Y-%m-%d")
+###====>>>>>
 
-
+nyse = mcal.get_calendar('NYSE')
 today_str = date.today().strftime("%Y-%m-%d")
 start_date = date.today() - timedelta(days=3)
 end_date = date.today() + timedelta(days=5)
