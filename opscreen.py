@@ -24,6 +24,7 @@ from alpaca.data.requests import StockBarsRequest
 import numpy as np
 import base64
 import pytz
+import mibian as mb
 
 st.set_page_config(page_title="tʰɛːta Terminal", page_icon="⏳ ", layout="wide", initial_sidebar_state="collapsed",
                    menu_items=None)
@@ -384,9 +385,16 @@ if type == 'calls':
 x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
 x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
 
+###Option Greeks
+
+
+x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["IV"])]
+x['Theta'] = [mb.BS([i,j,1,k], volatility=l).putTheta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["IV"])]
+
+
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '%Change', 'impliedVolatility': 'IV',
                       'lastTradeDate': 'Last Trade Date','bid': 'Bid','ask': 'Ask','openInterest':'Open Int'})
-columnsTitles = ['strike', 'expiration','DTE','Last Price','%Change','Bid','Ask','Mark','ROC', 'Annual Yield','Open Int','% OTM', 'IV','Sector',
+columnsTitles = ['strike', 'expiration','DTE','Last Price','%Change','Bid','Ask','Mark','ROC', 'Annual Yield','Delta','Theta','Open Int','% OTM', 'IV','Sector',
                  'Contract Time', 'Last Trade Date']
 x = x.reindex(columns=columnsTitles)
 
@@ -470,6 +478,8 @@ with st.expander("Index Description"):
 | Open Int           | (Open Interest) Total number of outstanding option contracts that can provide a more accurate picture of its liquidity and interest |
 | ROC                | (Return on Capital) Expected % return of a contract based on capital used if closed at 100% profit                                  |
 | Annual Yield       | Annual yield of contract if closed at 100% each time                                                                                |
+| Delta              | Measures the sensitivity of an option's theoretical value to an change in price of the underlying asset                             |
+| Theta              | Theta is the rate of decline of an option's extrinsic value over time                                                               |
 | Sector             | Indentified sector of the company                                                                                                   |
 | Contract Timeframe | range to contract expiration (< 21 days / >= 21 days)                                                                               |
 """
@@ -487,7 +497,6 @@ st.write('Want to get in touch?')
 
 st.markdown(
     "[![Foo](https://em-content.zobj.net/thumbs/120/sony/336/envelope_2709-fe0f.png)](https://twitter.com/mvnchi0)")
-
 
 
 
