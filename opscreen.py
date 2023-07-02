@@ -383,15 +383,16 @@ x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 10
 
 if type == 'puts':
   x['% OTM'] = round(percentage_change(x['strike'], x['Last Price']))
+  x['BE'] = x['strike'] - x['lastPrice']
 
 if type == 'calls':
   x['% OTM'] = round((x['strike'] * 100 / x['Last Price'])) -100
+  x['BE'] = x['strike'] + x['lastPrice']
 
-
-x = x.rename(columns={'lastPrice': 'Mark', 'Change': '%Change', 'impliedVolatility': 'IV',
+x = x.rename(columns={'lastPrice': 'Mark', 'Change': '%Change', 'impliedVolatility': 'IV','% OTM' : 'Moneyness',
                       'lastTradeDate': 'Last Trade Date','bid': 'Bid','ask': 'Ask','openInterest':'Open Int'})
-columnsTitles = ['strike', 'expiration','DTE','Last Price','%Change','Bid','Ask','Mark','ROC','Annual Yield',
-                'Open Int','% OTM', 'IV','Sector','Contract Time', 'Last Trade Date']
+columnsTitles = ['strike', 'expiration','DTE','Last Price','%Change','Bid','Ask','Mark','BE','ROC','Annual Yield',
+                'Open Int','Moneyness', 'IV','Sector','Contract Time', 'Last Trade Date']
 x = x.reindex(columns=columnsTitles)
 
 # x['Last Trade Date'] = pd.to_datetime(x['Last Trade Date'], format="%Y-%m-%d")
@@ -468,7 +469,8 @@ with st.expander("Index Description"):
 | Bid                | Contract bid price                                                                                                                  |
 | Ask                | Contract ask price                                                                                                                  |
 | Mark               | Contract mark price (Midprice between bid and ask prices)                                                                           |
-| % OTM              | How far strike price is away from the current stock price (% out-of-the-money)                                                      |
+| BE                 | Break Even (Net Debit)                                                                                                              |
+| Moneyess           | The relative position of the last (underlying) price to the strike price                                                            |
 | IV                 | (Implied Volatility) (captures the market's view of the likelihood of movement in a given security's price)                         |
 | Open Int           | (Open Interest) Total number of outstanding option contracts that can provide a more accurate picture of its liquidity and interest |
 | ROC                | (Return on Capital) Expected % return of a contract based on capital used if closed at 100% profit                                  |
