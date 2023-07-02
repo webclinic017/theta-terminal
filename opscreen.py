@@ -376,7 +376,7 @@ bars = data_client.get_stock_bars(request_params)
 bars_df = bars.df.reset_index()
 
 bars_df = bars_df.set_index('symbol')
-x['Change'] = round(percentage_change(bars_df['open'], bars_df['close'])).astype(str) + '%'
+x['Change'] = round(percentage_change(bars_df['open'], bars_df['close']))
 
 x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
 x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
