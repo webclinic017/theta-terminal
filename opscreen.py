@@ -387,8 +387,8 @@ x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 10
 
 ###Option Greeks
 
-x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["IV"])]
-x['Theta'] = [mb.BS([i,j,1,k], volatility=l).putTheta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["IV"])]
+x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callDelta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
+x['Theta'] = [mb.BS([i,j,1,k], volatility=l).putTheta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callTheta for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
 
 
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '%Change', 'impliedVolatility': 'IV',
