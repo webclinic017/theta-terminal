@@ -431,19 +431,18 @@ x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
 
 def color_negative_red(value):
     if isinstance(value, str):
-        color = 'black'
-        return 'color: %s' % color
-    if isinstance(value, float):
         if value > 0:
             color = "green"
             return 'color: %s' % color
         if value < 0:
             color = "red"
             return 'color: %s' % color
+
 x['ROC'] = x['ROC'].astype(str) + '%'
 x['Annual Yield'] = x['Annual Yield'].astype(str) + '%'
 x['IV'] = x['IV'].astype(str) + '%'
-#x['Moneyness'] = x['Moneyness'].astype(str) + '%'
+x['Moneyness'] = x['Moneyness'].astype(str) + '%'
+x['% Day Change'] = x['% Day Change'].astype(str) + '%'
 
 x = x.sort_values('ROC', ascending=False)
 x = x.reset_index()
