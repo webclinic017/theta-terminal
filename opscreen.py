@@ -441,12 +441,12 @@ def color_negative_red(value):
             color = "red"
             return 'color: %s' % color
 
-x['ROC'] = x['ROC'].astype(str) + '%'
 x['Annual Yield'] = x['Annual Yield'].astype(str) + '%'
 x['IV'] = x['IV'].astype(str) + '%'
 
 
 x = x.sort_values('ROC', ascending=False)
+x['ROC'] = x['ROC'].astype(str) + '%'
 x = x.reset_index()
 d = dict.fromkeys(x.select_dtypes('float').columns, "{:.2f}")
 x['symbol'] = x['symbol'].astype('category')
