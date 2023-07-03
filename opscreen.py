@@ -445,25 +445,24 @@ else:
     x['Theta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"]).callTheta]
 
 
-        x = x.rename(
-        columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV', '% OTM': 'Moneyness',
-                 'lastTradeDate': 'Last Trade Date', 'bid': 'Bid', 'ask': 'Ask', 'openInterest': 'Open Int'})
-    columnsTitles = ['strike', 'expiration', 'DTE', 'Last Price', '% Day Change', 'Bid', 'Ask', 'Mark', 'BE', 'ROC',
+x = x.rename(columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV', '% OTM': 'Moneyness',
+                    'lastTradeDate': 'Last Trade Date', 'bid': 'Bid', 'ask': 'Ask', 'openInterest': 'Open Int'})
+columnsTitles = ['strike', 'expiration', 'DTE', 'Last Price', '% Day Change', 'Bid', 'Ask', 'Mark', 'BE', 'ROC',
                      'Annual Yield',
                      'Delta', 'Theta', 'Open Int', 'Moneyness', 'IV', 'Sector', 'Contract Time', 'Last Trade Date']
-    x = x.reindex(columns=columnsTitles)
+x = x.reindex(columns=columnsTitles)
 
-    if today_str in nyse_schedule.index:
-        x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(today_start))]
-    else:
-        x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date))]
+if today_str in nyse_schedule.index:
+    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(today_start))]
+else:
+    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date))]
 
-    x = x[x['DTE'] <= DTE]
-    x = x.loc[x['Moneyness'].between(-200, OTM)]
-    x = x.loc[x['ROC'].between(ROC, 100)]
-    x = x.loc[x['IV'].between(IV, 1000)]
+x = x[x['DTE'] <= DTE]
+x = x.loc[x['Moneyness'].between(-200, OTM)]
+x = x.loc[x['ROC'].between(ROC, 100)]
+x = x.loc[x['IV'].between(IV, 1000)]
 
-    x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
+x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
 
 
 def color_negative_red(value):
