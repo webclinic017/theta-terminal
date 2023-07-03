@@ -366,6 +366,17 @@ nyse = mcal.get_calendar('NYSE')
 date =  pd.to_datetime(today_start) - pd.tseries.offsets.CustomBusinessDay(1, holidays = nyse.holidays().holidays)
 start_date = date.strftime('%Y-%m-%d %H:%M:%S')
 
+today_str = date.today().strftime("%Y-%m-%d")
+start_date = date.today() - timedelta(days=3)
+end_date = date.today() + timedelta(days=5)
+nyse_schedule = nyse.schedule(start_date=start_date, end_date=end_date)
+
+if today_str in nyse_schedule.index:
+  start_date = date.strftime('%Y-%m-%d %H:%M:%S')
+    
+else:
+  start_date = today_str
+
 
 request_params = StockBarsRequest(
                         symbol_or_symbols=symbols,
@@ -397,10 +408,7 @@ x = x.reindex(columns=columnsTitles)
 
 # x['Last Trade Date'] = pd.to_datetime(x['Last Trade Date'], format="%Y-%m-%d")
 
-today_str = date.today().strftime("%Y-%m-%d")
-start_date = date.today() - timedelta(days=3)
-end_date = date.today() + timedelta(days=5)
-nyse_schedule = nyse.schedule(start_date=start_date, end_date=end_date)
+
 # display(nyse_schedule)
 if today_str in nyse_schedule.index:
     x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today()))]
