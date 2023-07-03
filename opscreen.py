@@ -434,21 +434,19 @@ x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 10
 if type == 'puts':
     x['% OTM'] = round(percentage_change(x['strike'], x['Last Price'])) * -1
     x['BE'] = x['strike'] - x['lastPrice']
-    x['Delta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"].putDelta.astype(float))]
-    # x['Theta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).putTheta]
+
 
 else:
     x['% OTM'] = round((x['Last Price'] * 100 / x['strike'])) - 100
     x['BE'] = x['strike'] + x['lastPrice']
-    # x['Delta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).callDelta]
-    # x['Theta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).callTheta]
+
 
 
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV', '% OTM': 'Moneyness',
                     'lastTradeDate': 'Last Trade Date', 'bid': 'Bid', 'ask': 'Ask', 'openInterest': 'Open Int'})
 columnsTitles = ['strike', 'expiration', 'DTE', 'Last Price', '% Day Change', 'Bid', 'Ask', 'Mark', 'BE', 'ROC',
                      'Annual Yield',
-                     'Delta', 'Theta', 'Open Int', 'Moneyness', 'IV', 'Sector', 'Contract Time', 'Last Trade Date']
+                     'Open Int', 'Moneyness', 'IV', 'Sector', 'Contract Time', 'Last Trade Date']
 x = x.reindex(columns=columnsTitles)
 
 if today_str in nyse_schedule.index:
