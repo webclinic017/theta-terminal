@@ -394,7 +394,7 @@ if type == 'puts':
   x['BE'] = x['strike'] - x['lastPrice']
 
 if type == 'calls':
-  x['% OTM'] = round((x['strike'] * 100 / x['Last Price'])) -100
+  x['% OTM'] = round((x['Last Price'] * 100 / x['strike'])) -100
   x['BE'] = x['strike'] + x['lastPrice']
 
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV','% OTM' : 'Moneyness',
