@@ -481,6 +481,8 @@ d = dict.fromkeys(x.select_dtypes('float').columns, "{:.2f}")
 x['symbol'] = x['symbol'].astype('category')
 x['Sector'] = x['Sector'].astype('category')
 filtered_df = dataframe_explorer(x, case=False)
+filtered_df.insert(12, 'Delta', [mb.BS([i,j,1,k], volatility=l).putDelta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callDelta for i,j,k,l in zip(filtered_df["Last Price"], filtered_df["strike"], filtered_df["DTE"], filtered_df["IV"])])
+filtered_df.insert(13, 'Theta', [mb.BS([i,j,1,k], volatility=l).putTheta if type=='puts' else mb.BS([i,j,1,k], volatility=l).callTheta for i,j,k,l in zip(filtered_df["Last Price"], filtered_df["strike"], filtered_df["DTE"], filtered_df["IV"])])
 filtered_df['expiration'] = pd.to_datetime(filtered_df['expiration']).dt.strftime('%Y-%m-%d')
 st.dataframe(filtered_df.style.applymap(color_negative_red, subset=['% Day Change', 'Moneyness']).format(d),
              height=1000, use_container_width=True)
