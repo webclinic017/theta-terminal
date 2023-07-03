@@ -393,14 +393,15 @@ if type == 'puts':
   x['% OTM'] = round(percentage_change(x['strike'], x['Last Price'])) * -1
   x['BE'] = x['strike'] - x['lastPrice']
   x['Delta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).putDelta 
-  #x['Theta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).putTheta
+  x['Theta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).putTheta
 
-if type == 'calls':
+elif type == 'calls':
   x['% OTM'] = round((x['Last Price'] * 100 / x['strike'])) -100
   x['BE'] = x['strike'] + x['lastPrice']
   x['Delta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).callDelta 
-  #x['Theta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).callTheta 
-
+  x['Theta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).callTheta 
+  
+                
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV','% OTM' : 'Moneyness',
                       'lastTradeDate': 'Last Trade Date','bid': 'Bid','ask': 'Ask','openInterest':'Open Int'})
 columnsTitles = ['strike', 'expiration','DTE','Last Price','% Day Change','Bid','Ask','Mark','BE','ROC','Annual Yield',
