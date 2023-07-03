@@ -507,7 +507,7 @@ with st.expander("Index Description"):
   | Bid                | Contract bid price                                                                                                                  |
   | Ask                | Contract ask price                                                                                                                  |
   | Mark               | Contract mark price (Midprice between bid and ask prices)                                                                           |
-  | BE                 | Break Even (Net Debit)                                                                                                              |
+  | BE                 | Break Even (Net Debit) as for a naked put or call. (strike price at which the position breaks even at expiry)                       |
   | Moneyess           | The relative position of the last (underlying) price to the strike price                                                            |
   | IV                 | (Implied Volatility) (captures the market's view of the likelihood of movement in a given security's price)                         |
   | Open Int           | (Open Interest) Total number of outstanding option contracts that can provide a more accurate picture of its liquidity and interest |
