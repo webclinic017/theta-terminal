@@ -434,7 +434,7 @@ x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 10
 if type == 'puts':
     x['% OTM'] = round(percentage_change(x['strike'], x['Last Price'])) * -1
     x['BE'] = x['strike'] - x['lastPrice']
-    x['Delta'] = [mb.BS([i,j,1,k], volatility=l).putDelta.astype(int) for i,j,k,l in zip(x["Last Price"], x["strike"], x["DTE"], x["impliedVolatility"])]
+    x['Delta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"].callDelta].astype(int)
     #x['Theta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).putTheta]
 
 #elif type == 'calls':
