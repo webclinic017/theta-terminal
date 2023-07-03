@@ -404,14 +404,14 @@ columnsTitles = ['strike', 'expiration','DTE','Last Price','% Day Change','Bid',
 x = x.reindex(columns=columnsTitles)
 
 if today_str in nyse_schedule.index:
-    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today()))]
+    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(today_start))]
 else:
     x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date))]
 
-#x = x[x['DTE'] <= DTE]
-#x = x.loc[x['Moneyness'].between(-200,OTM)]
-#x = x.loc[x['ROC'].between(ROC, 100)]
-#x = x.loc[x['IV'].between(IV, 1000)]
+x = x[x['DTE'] <= DTE]
+x = x.loc[x['Moneyness'].between(-200,OTM)]
+x = x.loc[x['ROC'].between(ROC, 100)]
+x = x.loc[x['IV'].between(IV, 1000)]
 
 
 x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
