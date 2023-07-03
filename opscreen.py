@@ -45,6 +45,7 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 import seaborn as sns
+
 sns.set_palette('Set3')
 
 with open('./files/wave.css') as f:
@@ -52,26 +53,24 @@ with open('./files/wave.css') as f:
 
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
-
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 subm = False
 
 DETA_KEY = st.secrets["DETA_KEY"]
 
-
 deta = Deta(DETA_KEY)
 
 drive_name = 'theta-data'
 drive = deta.Drive(drive_name)
 
-#large_file = drive.get("options_data.parquet")
-#with open("options_data.parquet", "wb+") as f:
-    #for chunk in large_file.iter_chunks(4096):
-        #f.write(chunk)
-    #large_file.close()
+# large_file = drive.get("options_data.parquet")
+# with open("options_data.parquet", "wb+") as f:
+# for chunk in large_file.iter_chunks(4096):
+# f.write(chunk)
+# large_file.close()
 
-#df = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_data.parquet')
+# df = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_data.parquet')
 
 # Filter Section => Sidebar
 
@@ -215,10 +214,9 @@ with col1:
     st.write("### News")
     fnews = News()
     all_news = fnews.get_news()
-with st.expander("Top 10 recent financial news",expanded=True):
-  st.dataframe(all_news['news'].head(10).set_index('Date'),use_container_width=True, height=200) #.to_markdown())
-    #st.dataframe(all_news['news'].head(10).set_index('Date'), use_container_width=True, height=200)
-
+with st.expander("Top 10 recent financial news", expanded=True):
+    st.dataframe(all_news['news'].head(10).set_index('Date'), use_container_width=True, height=200)  # .to_markdown())
+    # st.dataframe(all_news['news'].head(10).set_index('Date'), use_container_width=True, height=200)
 
 with st.container():
     col1, col2, col3, col4, col5 = st.columns([5, 5, 5, 5, 5], gap="small")
@@ -233,11 +231,10 @@ with col2:
     OTM = st.number_input('%OTM (min)', value=-5)
     choice = None
 
-    #sector  = st.multiselect('Sector:',['Basic Materials', 'Consumer Cyclical',
-                            #'Consumer Defensive','Communication Services',
-                            #'Energy','ETF','Financial','Healthcare','Industrials',
-                            #'Real Estate','Technology'],'Basic Materials')
-
+    # sector  = st.multiselect('Sector:',['Basic Materials', 'Consumer Cyclical',
+    # 'Consumer Defensive','Communication Services',
+    # 'Energy','ETF','Financial','Healthcare','Industrials',
+    # 'Real Estate','Technology'],'Basic Materials')
 
     select_text = "Nothing Selected"
     multi_css = f'''
@@ -258,17 +255,17 @@ with col3:
     ROC = st.number_input('ROC (min)', 0, 100, value=2)
 with col4:
     IV = st.number_input('IV (min)', 0, 1000, value=10)
-  
+
 with st.container():
     cpad1, col, pad2 = st.columns((1, 60, 10))
 
 with col:
     path = os.path.dirname(__file__)
 
-#df1 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
-#df2 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
-#df = pd.concat([df1,df2])
 
+# df1 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
+# df2 = pd.read_parquet(r'C:\Users\Markus\Desktop\Jupyter\options_all.parquet')
+# df = pd.concat([df1,df2])
 
 
 @st.cache_data(show_spinner=True)
@@ -282,66 +279,112 @@ def cached_optData():
     df = pd.read_parquet(path + '/options_sorted.parquet')
     return df
 
+
 raw = cached_optData()
-df = raw.reset_index(drop=True).set_index(['symbol','expiration','optionType'])
+df = raw.reset_index(drop=True).set_index(['symbol', 'expiration', 'optionType'])
 df = df.xs(type, level=2).reset_index()
 
 symbols = ['A', 'AA', 'AAL', 'AAP', 'AAPL', 'ABBV', 'ABNB', 'ABR', 'ABT', 'ADBE', 'ADI', 'ADM', 'AEHR', 'AEM', 'AFRM',
            'AG', 'AGNC', 'AI', 'AIG', 'ALB', 'ALGM', 'AMAT', 'AMC', 'AMD', 'AMT', 'AMZN', 'APA', 'APLD', 'APLS', 'APO',
-           'APP', 'APPS', 'AR', 'ARKK', 'ARRY', 'ASAN', 'ASO', 'ATVI', 'AU', 'AUPH', 'AVGO', 'AVTR', 'AXP', 'AYX', 'AZN',
-           'AZUL', 'BA', 'BABA', 'BAC', 'BAX', 'BBIO', 'BBWI', 'BBY', 'BE', 'BEKE', 'BIDU', 'BILI', 'BILL', 'BJ', 'BLDR',
-           'BLNK', 'BLUE', 'BMBL', 'BMEA', 'BMY', 'BN', 'BOH', 'BP', 'BTU', 'BUD', 'BURL', 'BWA', 'BX', 'BXMT', 'BXP', 'BYND',
-           'C', 'CAKE', 'CAT', 'CC', 'CCI', 'CCJ', 'CCL', 'CDAY', 'CELH', 'CF', 'CFG', 'CFLT', 'CHGG', 'CHPT', 'CHWY', 'CLF',
-           'CM', 'CMA', 'CMCSA', 'COF', 'COHR', 'COIN', 'COP', 'CPE', 'CPNG', 'CPRI', 'CPRX', 'CRM', 'CROX', 'CRSP', 'CRWD',
-           'CSIQ', 'CTLT', 'CVNA', 'CVS', 'CVX', 'CZR', 'DAL', 'DASH', 'DBX', 'DD', 'DDD', 'DDOG', 'DFS', 'DHI', 'DIS', 'DISH',
-           'DKNG', 'DLO', 'DLR', 'DLTR', 'DNA', 'DOCN', 'DOCS', 'DOCU', 'DOW', 'DQ', 'DT', 'DV', 'DVN', 'DXCM', 'EDR', 'EGO',
-           'ELAN', 'ELF', 'ENPH', 'ENVX', 'EOG', 'EQT', 'ETSY', 'EW', 'EWBC', 'EXAS', 'EXPE', 'EXPI', 'F', 'FANG', 'FCEL',
-           'FCX', 'FDX', 'FGEN', 'FHN', 'FIS', 'FITB', 'FL', 'FSLR', 'FSLY', 'FSR', 'FTCH', 'FTI', 'FTNT', 'FUBO', 'FUTU',
-           'FYBR', 'GDRX', 'GE', 'GFS', 'GILD', 'GLD', 'GLW', 'GM', 'GME', 'GNRC', 'GOLD', 'GOOG', 'GOOGL', 'GOOS', 'GOTU',
-           'GPN', 'GPS', 'GS', 'GSK', 'GT', 'GTLB', 'HAL', 'HAS', 'HCA', 'HES', 'HOG', 'HOOD', 'HPQ', 'HUT', 'IBM', 'IEP',
-           'IFF', 'IGT', 'IMGN', 'INDI', 'INMD', 'INTC', 'IOT', 'IRM', 'IWM', 'JBL', 'JD', 'JMIA', 'JOBY', 'JPM', 'KBH', 'KD',
-           'KEY', 'KMI', 'KMX', 'KNX', 'KR', 'KSS', 'LAC', 'LAZR', 'LCID', 'LEN', 'LI', 'LLY', 'LNC', 'LULU', 'LUMN', 'LUV',
-           'LVS', 'LYB', 'LYFT', 'LYV', 'M', 'MANU', 'MARA', 'MBLY', 'MDB', 'MET', 'META', 'MKC', 'MLCO', 'MMM', 'MODG', 'MOS',
-           'MP', 'MPC', 'MPW', 'MQ', 'MRNA', 'MRO', 'MRVL', 'MS', 'MSFT', 'MTCH', 'MU', 'MVIS', 'NCLH', 'NEM', 'NEP', 'NET',
-           'NFE', 'NFLX', 'NIO', 'NKE', 'NKLA', 'NLY', 'NNOX', 'NOVA', 'NRG', 'NTLA', 'NU', 'NUE', 'NVAX', 'NVDA', 'NVO', 'NWL',
-           'NXT', 'OKTA', 'OMC', 'ON', 'ONON', 'OPCH', 'OPEN', 'ORCL', 'OVV', 'OXY', 'OZK', 'PACW', 'PAGS', 'PANW', 'PARA',
-           'PATH', 'PAYO', 'PBR', 'PCG', 'PD', 'PDD', 'PENN', 'PFG', 'PGY', 'PINS', 'PLAY', 'PLD', 'PLNT', 'PLTK', 'PLTR',
-           'PLUG', 'PM', 'PNC', 'PRU', 'PSTG', 'PSX', 'PTON', 'PXD', 'PYPL', 'QCOM', 'QQQ', 'QRVO', 'QS', 'RBLX', 'RC', 'RCL',
-           'RDFN', 'RF', 'RIG', 'RIOT', 'RIVN', 'RKLB', 'RKT', 'RMBS', 'RNG', 'ROKU', 'ROST', 'RPD', 'RRC', 'RUN', 'RVLV', 'S',
-           'SABR', 'SBLK', 'SCHW', 'SDGR', 'SE', 'SFIX', 'SG', 'SGEN', 'SHEL', 'SHLS', 'SHOP', 'SLB', 'SLG', 'SLV', 'SMAR',
-           'SMCI', 'SNAP', 'SNDL', 'SNOW', 'SOFI', 'SOUN', 'SOXL', 'SPCE', 'SPLK', 'SPOT', 'SPR', 'SPWR', 'SPY', 'SQ', 'SQM',
-           'SRPT', 'STLD', 'STNG', 'STWD', 'STX', 'STZ', 'SU', 'SWKS', 'SWN', 'T', 'TAL', 'TDOC', 'TEAM', 'TECK', 'TFC', 'TGT',
-           'TGTX', 'TMC', 'TME', 'TMO', 'TMUS', 'TPR', 'TPX', 'TQQQ', 'TRGP', 'TRIP', 'TRUP', 'TSLA', 'TSM', 'TTD', 'TTWO',
-           'TWLO', 'U', 'UAL', 'UBER', 'UEC', 'UNIT', 'UNP', 'UPS', 'UPST', 'USB', 'V', 'VALE', 'VFC', 'VIPS', 'VLO', 'VLY',
-           'VNO', 'VTNR', 'VZ', 'W', 'WAL', 'WBA', 'WBD', 'WDC', 'WFC', 'WOLF', 'WPM', 'WW', 'WYNN', 'X', 'XLE', 'XOM', 'XPEV',
-           'YEXT', 'Z', 'ZI', 'ZION', 'ZM', 'ZS', 'ZTO','ACWI', 'ACWX', 'AGG', 'AMLP', 'ANGL', 'ARKG', 'ARKK', 'ASHR', 'BIL',
-            'BOIL', 'BOTZ', 'BSV', 'COWZ', 'CWB', 'DBC', 'DFAC', 'DGRO', 'DIA', 'DPST', 'DRIP', 'DUST', 'EEM', 'EFA', 'EFV',
-            'EMB', 'EMLC', 'EWA', 'EWC', 'EWG', 'EWH', 'EWJ', 'EWT', 'EWU', 'EWW', 'EWY', 'EWZ', 'EZU', 'FAS', 'FAZ', 'FDL',
-            'FEZ', 'FLOT', 'FLRN', 'FNDF', 'FPE', 'FTSM', 'FVD', 'FXI', 'FXN', 'GDX', 'GDXJ', 'GLD', 'GOVT', 'HIBS', 'HYG',
-            'HYLB', 'IAU', 'IBB', 'ICLN', 'ICSH', 'IEF', 'IEFA', 'IEI', 'IEMG', 'IGIB', 'IGSB', 'IJH', 'IJR', 'INDA', 'IQLT',
-            'ITB', 'ITOT', 'IUSB', 'IVV', 'IVW', 'IWD', 'IWF', 'IWM', 'IWN', 'IWR', 'IXUS', 'IYR', 'JDST', 'JEPI', 'JEPQ',
-            'JETS', 'JNK', 'JNUG', 'JPST', 'KBE', 'KBWB', 'KOLD', 'KRE', 'KWEB', 'LABD', 'LABU', 'LQD', 'MBB', 'MCHI', 'MJ',
-            'MSOS', 'MUB', 'NUGT', 'NVDS', 'OUNZ', 'PDBC', 'PFF', 'PGX', 'PSQ', 'QID', 'QLD', 'QQQ', 'QQQM', 'QUAL', 'QYLD',
-            'RSP', 'RWM', 'RYLD', 'SARK', 'SCHD', 'SCHE', 'SCHF', 'SCHG', 'SCHH', 'SCHO', 'SCHP', 'SCHR', 'SCHX', 'SCO', 'SDOW',
-            'SDS', 'SGOL', 'SH', 'SHV', 'SHY', 'SHYG', 'SILJ', 'SJNK', 'SLV', 'SMH', 'SOXL', 'SOXS', 'SOXX', 'SPAB', 'SPDN',
-            'SPDW', 'SPEM', 'SPIB', 'SPLG', 'SPLV', 'SPSB', 'SPTI', 'SPTL', 'SPTS', 'SPXL', 'SPXS', 'SPXU', 'SPY', 'SPYD',
-            'SPYG', 'SPYV', 'SQQQ', 'SRLN', 'SSO', 'SVIX', 'SVXY', 'TBT', 'TECL', 'TECS', 'TFLO', 'TIP', 'TLT', 'TMF', 'TNA',
-            'TQQQ', 'TSLL', 'TSLQ', 'TWM', 'TZA', 'UCO', 'UDOW', 'UNG', 'UPRO', 'URA', 'USFR', 'USHY', 'USMV', 'USO', 'UUP',
-            'UVIX', 'UVXY', 'VCIT', 'VCLT', 'VCSH', 'VEA', 'VEU', 'VGIT', 'VGK', 'VGLT', 'VGSH', 'VIXY', 'VMBS', 'VNQ', 'VOO',
-            'VT', 'VTEB', 'VTI', 'VTIP', 'VTV', 'VTWO', 'VWO', 'VXUS', 'VXX', 'VYM', 'WEBL', 'XBI', 'XHB', 'XLB', 'XLC', 'XLE',
-            'XLF', 'XLI', 'XLK', 'XLP', 'XLRE', 'XLU', 'XLV', 'XLY', 'XME', 'XOP', 'XRT', 'YANG', 'YINN','BITI', 'BITO', 'BIV',
-            'BKLN', 'BND', 'BNDX']
+           'APP', 'APPS', 'AR', 'ARKK', 'ARRY', 'ASAN', 'ASO', 'ATVI', 'AU', 'AUPH', 'AVGO', 'AVTR', 'AXP', 'AYX',
+           'AZN',
+           'AZUL', 'BA', 'BABA', 'BAC', 'BAX', 'BBIO', 'BBWI', 'BBY', 'BE', 'BEKE', 'BIDU', 'BILI', 'BILL', 'BJ',
+           'BLDR',
+           'BLNK', 'BLUE', 'BMBL', 'BMEA', 'BMY', 'BN', 'BOH', 'BP', 'BTU', 'BUD', 'BURL', 'BWA', 'BX', 'BXMT', 'BXP',
+           'BYND',
+           'C', 'CAKE', 'CAT', 'CC', 'CCI', 'CCJ', 'CCL', 'CDAY', 'CELH', 'CF', 'CFG', 'CFLT', 'CHGG', 'CHPT', 'CHWY',
+           'CLF',
+           'CM', 'CMA', 'CMCSA', 'COF', 'COHR', 'COIN', 'COP', 'CPE', 'CPNG', 'CPRI', 'CPRX', 'CRM', 'CROX', 'CRSP',
+           'CRWD',
+           'CSIQ', 'CTLT', 'CVNA', 'CVS', 'CVX', 'CZR', 'DAL', 'DASH', 'DBX', 'DD', 'DDD', 'DDOG', 'DFS', 'DHI', 'DIS',
+           'DISH',
+           'DKNG', 'DLO', 'DLR', 'DLTR', 'DNA', 'DOCN', 'DOCS', 'DOCU', 'DOW', 'DQ', 'DT', 'DV', 'DVN', 'DXCM', 'EDR',
+           'EGO',
+           'ELAN', 'ELF', 'ENPH', 'ENVX', 'EOG', 'EQT', 'ETSY', 'EW', 'EWBC', 'EXAS', 'EXPE', 'EXPI', 'F', 'FANG',
+           'FCEL',
+           'FCX', 'FDX', 'FGEN', 'FHN', 'FIS', 'FITB', 'FL', 'FSLR', 'FSLY', 'FSR', 'FTCH', 'FTI', 'FTNT', 'FUBO',
+           'FUTU',
+           'FYBR', 'GDRX', 'GE', 'GFS', 'GILD', 'GLD', 'GLW', 'GM', 'GME', 'GNRC', 'GOLD', 'GOOG', 'GOOGL', 'GOOS',
+           'GOTU',
+           'GPN', 'GPS', 'GS', 'GSK', 'GT', 'GTLB', 'HAL', 'HAS', 'HCA', 'HES', 'HOG', 'HOOD', 'HPQ', 'HUT', 'IBM',
+           'IEP',
+           'IFF', 'IGT', 'IMGN', 'INDI', 'INMD', 'INTC', 'IOT', 'IRM', 'IWM', 'JBL', 'JD', 'JMIA', 'JOBY', 'JPM', 'KBH',
+           'KD',
+           'KEY', 'KMI', 'KMX', 'KNX', 'KR', 'KSS', 'LAC', 'LAZR', 'LCID', 'LEN', 'LI', 'LLY', 'LNC', 'LULU', 'LUMN',
+           'LUV',
+           'LVS', 'LYB', 'LYFT', 'LYV', 'M', 'MANU', 'MARA', 'MBLY', 'MDB', 'MET', 'META', 'MKC', 'MLCO', 'MMM', 'MODG',
+           'MOS',
+           'MP', 'MPC', 'MPW', 'MQ', 'MRNA', 'MRO', 'MRVL', 'MS', 'MSFT', 'MTCH', 'MU', 'MVIS', 'NCLH', 'NEM', 'NEP',
+           'NET',
+           'NFE', 'NFLX', 'NIO', 'NKE', 'NKLA', 'NLY', 'NNOX', 'NOVA', 'NRG', 'NTLA', 'NU', 'NUE', 'NVAX', 'NVDA',
+           'NVO', 'NWL',
+           'NXT', 'OKTA', 'OMC', 'ON', 'ONON', 'OPCH', 'OPEN', 'ORCL', 'OVV', 'OXY', 'OZK', 'PACW', 'PAGS', 'PANW',
+           'PARA',
+           'PATH', 'PAYO', 'PBR', 'PCG', 'PD', 'PDD', 'PENN', 'PFG', 'PGY', 'PINS', 'PLAY', 'PLD', 'PLNT', 'PLTK',
+           'PLTR',
+           'PLUG', 'PM', 'PNC', 'PRU', 'PSTG', 'PSX', 'PTON', 'PXD', 'PYPL', 'QCOM', 'QQQ', 'QRVO', 'QS', 'RBLX', 'RC',
+           'RCL',
+           'RDFN', 'RF', 'RIG', 'RIOT', 'RIVN', 'RKLB', 'RKT', 'RMBS', 'RNG', 'ROKU', 'ROST', 'RPD', 'RRC', 'RUN',
+           'RVLV', 'S',
+           'SABR', 'SBLK', 'SCHW', 'SDGR', 'SE', 'SFIX', 'SG', 'SGEN', 'SHEL', 'SHLS', 'SHOP', 'SLB', 'SLG', 'SLV',
+           'SMAR',
+           'SMCI', 'SNAP', 'SNDL', 'SNOW', 'SOFI', 'SOUN', 'SOXL', 'SPCE', 'SPLK', 'SPOT', 'SPR', 'SPWR', 'SPY', 'SQ',
+           'SQM',
+           'SRPT', 'STLD', 'STNG', 'STWD', 'STX', 'STZ', 'SU', 'SWKS', 'SWN', 'T', 'TAL', 'TDOC', 'TEAM', 'TECK', 'TFC',
+           'TGT',
+           'TGTX', 'TMC', 'TME', 'TMO', 'TMUS', 'TPR', 'TPX', 'TQQQ', 'TRGP', 'TRIP', 'TRUP', 'TSLA', 'TSM', 'TTD',
+           'TTWO',
+           'TWLO', 'U', 'UAL', 'UBER', 'UEC', 'UNIT', 'UNP', 'UPS', 'UPST', 'USB', 'V', 'VALE', 'VFC', 'VIPS', 'VLO',
+           'VLY',
+           'VNO', 'VTNR', 'VZ', 'W', 'WAL', 'WBA', 'WBD', 'WDC', 'WFC', 'WOLF', 'WPM', 'WW', 'WYNN', 'X', 'XLE', 'XOM',
+           'XPEV',
+           'YEXT', 'Z', 'ZI', 'ZION', 'ZM', 'ZS', 'ZTO', 'ACWI', 'ACWX', 'AGG', 'AMLP', 'ANGL', 'ARKG', 'ARKK', 'ASHR',
+           'BIL',
+           'BOIL', 'BOTZ', 'BSV', 'COWZ', 'CWB', 'DBC', 'DFAC', 'DGRO', 'DIA', 'DPST', 'DRIP', 'DUST', 'EEM', 'EFA',
+           'EFV',
+           'EMB', 'EMLC', 'EWA', 'EWC', 'EWG', 'EWH', 'EWJ', 'EWT', 'EWU', 'EWW', 'EWY', 'EWZ', 'EZU', 'FAS', 'FAZ',
+           'FDL',
+           'FEZ', 'FLOT', 'FLRN', 'FNDF', 'FPE', 'FTSM', 'FVD', 'FXI', 'FXN', 'GDX', 'GDXJ', 'GLD', 'GOVT', 'HIBS',
+           'HYG',
+           'HYLB', 'IAU', 'IBB', 'ICLN', 'ICSH', 'IEF', 'IEFA', 'IEI', 'IEMG', 'IGIB', 'IGSB', 'IJH', 'IJR', 'INDA',
+           'IQLT',
+           'ITB', 'ITOT', 'IUSB', 'IVV', 'IVW', 'IWD', 'IWF', 'IWM', 'IWN', 'IWR', 'IXUS', 'IYR', 'JDST', 'JEPI',
+           'JEPQ',
+           'JETS', 'JNK', 'JNUG', 'JPST', 'KBE', 'KBWB', 'KOLD', 'KRE', 'KWEB', 'LABD', 'LABU', 'LQD', 'MBB', 'MCHI',
+           'MJ',
+           'MSOS', 'MUB', 'NUGT', 'NVDS', 'OUNZ', 'PDBC', 'PFF', 'PGX', 'PSQ', 'QID', 'QLD', 'QQQ', 'QQQM', 'QUAL',
+           'QYLD',
+           'RSP', 'RWM', 'RYLD', 'SARK', 'SCHD', 'SCHE', 'SCHF', 'SCHG', 'SCHH', 'SCHO', 'SCHP', 'SCHR', 'SCHX', 'SCO',
+           'SDOW',
+           'SDS', 'SGOL', 'SH', 'SHV', 'SHY', 'SHYG', 'SILJ', 'SJNK', 'SLV', 'SMH', 'SOXL', 'SOXS', 'SOXX', 'SPAB',
+           'SPDN',
+           'SPDW', 'SPEM', 'SPIB', 'SPLG', 'SPLV', 'SPSB', 'SPTI', 'SPTL', 'SPTS', 'SPXL', 'SPXS', 'SPXU', 'SPY',
+           'SPYD',
+           'SPYG', 'SPYV', 'SQQQ', 'SRLN', 'SSO', 'SVIX', 'SVXY', 'TBT', 'TECL', 'TECS', 'TFLO', 'TIP', 'TLT', 'TMF',
+           'TNA',
+           'TQQQ', 'TSLL', 'TSLQ', 'TWM', 'TZA', 'UCO', 'UDOW', 'UNG', 'UPRO', 'URA', 'USFR', 'USHY', 'USMV', 'USO',
+           'UUP',
+           'UVIX', 'UVXY', 'VCIT', 'VCLT', 'VCSH', 'VEA', 'VEU', 'VGIT', 'VGK', 'VGLT', 'VGSH', 'VIXY', 'VMBS', 'VNQ',
+           'VOO',
+           'VT', 'VTEB', 'VTI', 'VTIP', 'VTV', 'VTWO', 'VWO', 'VXUS', 'VXX', 'VYM', 'WEBL', 'XBI', 'XHB', 'XLB', 'XLC',
+           'XLE',
+           'XLF', 'XLI', 'XLK', 'XLP', 'XLRE', 'XLU', 'XLV', 'XLY', 'XME', 'XOP', 'XRT', 'YANG', 'YINN', 'BITI', 'BITO',
+           'BIV',
+           'BKLN', 'BND', 'BNDX']
 
 
 def calculate_days(expiration):
     today = pd.Timestamp('today')
     return (today - expiration).days * -1
 
+
 df['DTE'] = df['expiration'].apply(lambda x: calculate_days(x))
 df["Contract Time"] = np.where(df["DTE"] >= 21, ">= 21", "< 21")
 
+
 def percentage_change(col1, col2):
     return ((col2 - col1) / col1) * 100
+
 
 df = df.set_index('symbol')
 
@@ -352,15 +395,15 @@ data_client = StockHistoricalDataClient(api_key, secret)
 request_params = StockLatestQuoteRequest(symbol_or_symbols=symbols)
 quotes = data_client.get_stock_latest_bar(request_params)
 
-close = pd.DataFrame.from_dict({k: dict(v) for k,v in quotes.items()}, orient='index').reset_index(drop=True)
-close = close[['symbol','close']]
+close = pd.DataFrame.from_dict({k: dict(v) for k, v in quotes.items()}, orient='index').reset_index(drop=True)
+close = close[['symbol', 'close']]
 close = close.rename(columns={'close': 'Last Price'})
 close = close.set_index('symbol')
 x = df.join(close)
 
 today_start = datetime.date.today()
 nyse = mcal.get_calendar('NYSE')
-date =  pd.to_datetime(today_start) - pd.tseries.offsets.CustomBusinessDay(1, holidays = nyse.holidays().holidays)
+date = pd.to_datetime(today_start) - pd.tseries.offsets.CustomBusinessDay(1, holidays=nyse.holidays().holidays)
 start_date = date.strftime('%Y-%m-%d %H:%M:%S')
 
 today_str = date.today().strftime("%Y-%m-%d")
@@ -369,16 +412,15 @@ end_date = date.today() + timedelta(days=5)
 nyse_schedule = nyse.schedule(start_date=start_date, end_date=end_date)
 
 if today_str in nyse_schedule.index:
-  start_date = datetime.date.today().strftime('%Y-%m-%d %H:%M:%S')
-    
-else:
-  start_date = today_str
+    start_date = datetime.date.today().strftime('%Y-%m-%d %H:%M:%S')
 
+else:
+    start_date = today_str
 
 request_params = StockBarsRequest(
-                        symbol_or_symbols=symbols,
-                        timeframe=TimeFrame.Day,
-                        start=start_date)
+    symbol_or_symbols=symbols,
+    timeframe=TimeFrame.Day,
+    start=start_date)
 
 bars = data_client.get_stock_bars(request_params)
 bars_df = bars.df.reset_index()
@@ -390,36 +432,37 @@ x['impliedVolatility'] = round(x['impliedVolatility'] * 100, 2)
 x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 100, 2)
 
 if type == 'puts':
-  x['% OTM'] = round(percentage_change(x['strike'], x['Last Price'])) * -1
-  x['BE'] = x['strike'] - x['lastPrice']
-  x['Delta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).putDelta
-                x['Theta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).putTheta
+    x['% OTM'] = round(percentage_change(x['strike'], x['Last Price'])) * -1
+    x['BE'] = x['strike'] - x['lastPrice']
+    x['Delta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"]).putDelta
+    x['Theta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"]).putTheta
 
-else type == 'calls':
-  x['% OTM'] = round((x['Last Price'] * 100 / x['strike'])) -100
-  x['BE'] = x['strike'] + x['lastPrice']
-  x['Delta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).callDelta 
-                x['Theta'] = [mb.BS([x["Last Price"],x["strike"],1,x["DTE"]], volatility=x["impliedVolatility"]).callTheta 
-  
-                
-x = x.rename(columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV','% OTM' : 'Moneyness',
-                      'lastTradeDate': 'Last Trade Date','bid': 'Bid','ask': 'Ask','openInterest':'Open Int'})
-columnsTitles = ['strike', 'expiration','DTE','Last Price','% Day Change','Bid','Ask','Mark','BE','ROC','Annual Yield',
-                'Delta','Theta','Open Int','Moneyness', 'IV','Sector','Contract Time', 'Last Trade Date']
-x = x.reindex(columns=columnsTitles)
-
-if today_str in nyse_schedule.index:
-    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(today_start))]
-else:
-    x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date))]
-
-x = x[x['DTE'] <= DTE]
-x = x.loc[x['Moneyness'].between(-200,OTM)]
-x = x.loc[x['ROC'].between(ROC, 100)]
-x = x.loc[x['IV'].between(IV, 1000)]
+    else type == 'calls':
+    x['% OTM'] = round((x['Last Price'] * 100 / x['strike'])) - 100
+    x['BE'] = x['strike'] + x['lastPrice']
+    x['Delta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"]).callDelta
+    x['Theta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"]).callTheta
 
 
-x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
+        x = x.rename(
+        columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV', '% OTM': 'Moneyness',
+                 'lastTradeDate': 'Last Trade Date', 'bid': 'Bid', 'ask': 'Ask', 'openInterest': 'Open Int'})
+    columnsTitles = ['strike', 'expiration', 'DTE', 'Last Price', '% Day Change', 'Bid', 'Ask', 'Mark', 'BE', 'ROC',
+                     'Annual Yield',
+                     'Delta', 'Theta', 'Open Int', 'Moneyness', 'IV', 'Sector', 'Contract Time', 'Last Trade Date']
+    x = x.reindex(columns=columnsTitles)
+
+    if today_str in nyse_schedule.index:
+        x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(today_start))]
+    else:
+        x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date))]
+
+    x = x[x['DTE'] <= DTE]
+    x = x.loc[x['Moneyness'].between(-200, OTM)]
+    x = x.loc[x['ROC'].between(ROC, 100)]
+    x = x.loc[x['IV'].between(IV, 1000)]
+
+    x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
 
 
 def color_negative_red(value):
@@ -435,7 +478,6 @@ def color_negative_red(value):
             return 'color: %s' % color
 
 
-
 x = x.sort_values('ROC', ascending=False)
 x = x.reset_index()
 d = dict.fromkeys(x.select_dtypes('float').columns, "{:.2f}")
@@ -443,39 +485,41 @@ x['symbol'] = x['symbol'].astype('category')
 x['Sector'] = x['Sector'].astype('category')
 filtered_df = dataframe_explorer(x, case=False)
 filtered_df['expiration'] = pd.to_datetime(filtered_df['expiration']).dt.strftime('%Y-%m-%d')
-st.dataframe(filtered_df.style.applymap(color_negative_red, subset=['% Day Change','Moneyness']).format(d), height=1000, use_container_width=True)
+st.dataframe(filtered_df.style.applymap(color_negative_red, subset=['% Day Change', 'Moneyness']).format(d),
+             height=1000, use_container_width=True)
 
 
 @st.cache_data
 def convert_df(filtered_df):
     return filtered_df.to_csv(index=False).encode('utf-8')
 
+
 csv = convert_df(filtered_df)
 
 with st.expander("Index Description"):
-  st.markdown(
-      """
-| Index              | Description                                                                                                                         |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| Symbol             | Stock Ticker                                                                                                                        |
-| Strike             | Strike price of option contract                                                                                                     |
-| Expiration         | Contract expiration date                                                                                                            |
-| DTE                | Days to expiration                                                                                                                  |
-| Bid                | Contract bid price                                                                                                                  |
-| Ask                | Contract ask price                                                                                                                  |
-| Mark               | Contract mark price (Midprice between bid and ask prices)                                                                           |
-| BE                 | Break Even (Net Debit)                                                                                                              |
-| Moneyess           | The relative position of the last (underlying) price to the strike price                                                            |
-| IV                 | (Implied Volatility) (captures the market's view of the likelihood of movement in a given security's price)                         |
-| Open Int           | (Open Interest) Total number of outstanding option contracts that can provide a more accurate picture of its liquidity and interest |
-| ROC                | (Return on Capital) Expected % return of a contract based on capital used if closed at 100% profit                                  |
-| Annual Yield       | Annual yield of contract if closed at 100% each time                                                                                |
-| Delta              | Measures the sensitivity of an option's theoretical value to an change in price of the underlying asset                             |
-| Theta              | Theta is the rate of decline of an option's extrinsic value over time                                                               |
-| Sector             | Indentified sector of the company                                                                                                   |
-| Contract Timeframe | range to contract expiration (< 21 days / >= 21 days)                                                                               |
-"""
-)
+    st.markdown(
+        """
+  | Index              | Description                                                                                                                         |
+  |--------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+  | Symbol             | Stock Ticker                                                                                                                        |
+  | Strike             | Strike price of option contract                                                                                                     |
+  | Expiration         | Contract expiration date                                                                                                            |
+  | DTE                | Days to expiration                                                                                                                  |
+  | Bid                | Contract bid price                                                                                                                  |
+  | Ask                | Contract ask price                                                                                                                  |
+  | Mark               | Contract mark price (Midprice between bid and ask prices)                                                                           |
+  | BE                 | Break Even (Net Debit)                                                                                                              |
+  | Moneyess           | The relative position of the last (underlying) price to the strike price                                                            |
+  | IV                 | (Implied Volatility) (captures the market's view of the likelihood of movement in a given security's price)                         |
+  | Open Int           | (Open Interest) Total number of outstanding option contracts that can provide a more accurate picture of its liquidity and interest |
+  | ROC                | (Return on Capital) Expected % return of a contract based on capital used if closed at 100% profit                                  |
+  | Annual Yield       | Annual yield of contract if closed at 100% each time                                                                                |
+  | Delta              | Measures the sensitivity of an option's theoretical value to an change in price of the underlying asset                             |
+  | Theta              | Theta is the rate of decline of an option's extrinsic value over time                                                               |
+  | Sector             | Indentified sector of the company                                                                                                   |
+  | Contract Timeframe | range to contract expiration (< 21 days / >= 21 days)                                                                               |
+  """
+    )
 
 st.download_button(
     "Download Table",
@@ -489,6 +533,5 @@ st.write('Want to get in touch?')
 
 st.markdown(
     "[![Foo](https://em-content.zobj.net/thumbs/120/sony/336/envelope_2709-fe0f.png)](https://twitter.com/mvnchi0)")
-
 
 
