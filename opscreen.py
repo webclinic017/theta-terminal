@@ -434,15 +434,14 @@ x['Annual Yield'] = round((x['lastPrice'] / x['strike']) * (365 / x['DTE']) * 10
 if type == 'puts':
     x['% OTM'] = round(percentage_change(x['strike'], x['Last Price'])) * -1
     x['BE'] = x['strike'] - x['lastPrice']
-    x['Delta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"].putDelta.astype(int)
-    #x['Theta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).putTheta]
+    x['Delta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"].putDelta.astype(int))]
+    # x['Theta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).putTheta]
 
-#elif type == 'calls':
 else:
     x['% OTM'] = round((x['Last Price'] * 100 / x['strike'])) - 100
     x['BE'] = x['strike'] + x['lastPrice']
-    #x['Delta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).callDelta]
-    #x['Theta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).callTheta]
+    # x['Delta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).callDelta]
+    # x['Theta'] = [mb.BS([x["Last Price"].astype(int), x["strike"].astype(int), 1, x["DTE"].astype(int)], volatility=x["impliedVolatility"].astype(int)).callTheta]
 
 
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV', '% OTM': 'Moneyness',
