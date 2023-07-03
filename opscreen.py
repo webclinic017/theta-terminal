@@ -437,7 +437,8 @@ if type == 'puts':
     x['Delta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"]).putDelta
     #x['Theta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"]).putTheta
 
-elif type == 'calls':
+#elif type == 'calls':
+else:
     x['% OTM'] = round((x['Last Price'] * 100 / x['strike'])) - 100
     x['BE'] = x['strike'] + x['lastPrice']
     x['Delta'] = [mb.BS([x["Last Price"], x["strike"], 1, x["DTE"]], volatility=x["impliedVolatility"]).callDelta
