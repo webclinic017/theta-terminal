@@ -404,7 +404,7 @@ if type == 'calls':
 x = x.rename(columns={'lastPrice': 'Mark', 'Change': '% Day Change', 'impliedVolatility': 'IV','% OTM' : 'Moneyness',
                       'lastTradeDate': 'Last Trade Date','bid': 'Bid','ask': 'Ask','openInterest':'Open Int'})
 columnsTitles = ['strike', 'expiration','DTE','Last Price','% Day Change','Bid','Ask','Mark','BE','ROC','Annual Yield',
-                'Open Int','Moneyness', 'IV','Sector','Contract Time', 'Last Trade Date']
+                'Delta','Theta','Open Int','Moneyness', 'IV','Sector','Contract Time', 'Last Trade Date']
 x = x.reindex(columns=columnsTitles)
 
 if today_str in nyse_schedule.index:
