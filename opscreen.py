@@ -332,9 +332,6 @@ symbols = ['A', 'AA', 'AAL', 'AAP', 'AAPL', 'ABBV', 'ABNB', 'ABR', 'ABT', 'ADBE'
             'XLF', 'XLI', 'XLK', 'XLP', 'XLRE', 'XLU', 'XLV', 'XLY', 'XME', 'XOP', 'XRT', 'YANG', 'YINN','BITI', 'BITO', 'BIV',
             'BKLN', 'BND', 'BNDX']
 
-#tickers = Ticker(symbols)
-#close = tickers.history(period='2d', interval='1m')
-# df = df[df['lastTradeDate'] >= datetime.today().strftime("%Y-%m-%d")]
 
 def calculate_days(expiration):
     today = pd.Timestamp('today')
@@ -406,36 +403,19 @@ columnsTitles = ['strike', 'expiration','DTE','Last Price','% Day Change','Bid',
                 'Open Int','Moneyness', 'IV','Sector','Contract Time', 'Last Trade Date']
 x = x.reindex(columns=columnsTitles)
 
-# x['Last Trade Date'] = pd.to_datetime(x['Last Trade Date'], format="%Y-%m-%d")
-
-
-# display(nyse_schedule)
 if today_str in nyse_schedule.index:
     x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today()))]
 else:
     x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date))]
-   #x = x.loc[(x['Last Trade Date'] >= pd.Timestamp(date.today() - timedelta(days=3)))]
 
-#x = x[x['Last Trade Date']] >= pd.to_datetime(today_str) - timedelta(days=3)
-
-# x = x[x['Last Trade Date'] >= datetime.today().strftime("%Y-%m-%d")]
-x = x[x['DTE'] <= DTE]
+#x = x[x['DTE'] <= DTE]
 #x = x.loc[x['Moneyness'].between(-200,OTM)]
-x = x.loc[x['ROC'].between(ROC, 100)]
-x = x.loc[x['IV'].between(IV, 1000)]
-#x = x[x['Sector'].str.contains('|'.join(sector))]
-#x = x[x['Sector'].isin(sector)]
+#x = x.loc[x['ROC'].between(ROC, 100)]
+#x = x.loc[x['IV'].between(IV, 1000)]
 
-#x = x.loc[sector.isin(x['Sector'])]
-#x= x.loc[x['Sector'].isin(sector)]
 
 x['expiration'] = pd.to_datetime(x['expiration']).dt.strftime('%Y-%m-%d')
 
-
-
-# def color_negative_red(val):
-# color = 'green' if val > 0 else 'red'
-# return f'background-color: {color}'
 
 def color_negative_red(value):
     if isinstance(value, str):
