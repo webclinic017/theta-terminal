@@ -438,7 +438,7 @@ x['symbol'] = x['symbol'].astype('category')
 x['Sector'] = x['Sector'].astype('category')
 filtered_df = dataframe_explorer(x, case=False)
 filtered_df['expiration'] = pd.to_datetime(filtered_df['expiration']).dt.strftime('%Y-%m-%d')
-st.dataframe(filtered_df.head(500).style.applymap(color_negative_red, subset=['% Day Change','Moneyness']).format(d), height=1000, use_container_width=True)
+st.dataframe(filtered_df.style.applymap(color_negative_red, subset=['% Day Change','Moneyness']).format(d), height=1000, use_container_width=True)
 
 
 @st.cache_data
