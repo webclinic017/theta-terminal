@@ -372,7 +372,7 @@ end_date = date.today() + timedelta(days=5)
 nyse_schedule = nyse.schedule(start_date=start_date, end_date=end_date)
 
 if today_str in nyse_schedule.index:
-  start_date = date.strftime('%Y-%m-%d %H:%M:%S')
+  start_date = datetime.date.today().strftime('%Y-%m-%d %H:%M:%S')
     
 else:
   start_date = today_str
