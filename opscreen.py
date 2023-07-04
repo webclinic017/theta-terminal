@@ -65,7 +65,7 @@ drive_name = 'theta-data'
 drive = deta.Drive(drive_name)
 
 heute = dt.datetime.now()
-heute_uhrzeit = heute.strftime("%d/%m/%Y, %H:%M:%S")
+heute_uhrzeit = heute.strftime("%d/%m/%Y, %H:%M:%S,%z")
 
 with st.container():
     col1, col2 = st.columns([10, 10], gap="large")
