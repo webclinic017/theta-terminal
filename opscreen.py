@@ -392,8 +392,8 @@ api_key = st.secrets["api_key"]
 secret = st.secrets["secret"]
 
 data_client = StockHistoricalDataClient(api_key, secret)
-request_params = StockLatestQuoteRequest(symbol_or_symbols=symbols)
-quotes = data_client.get_stock_latest_bar(request_params)
+request_params2 = StockLatestQuoteRequest(symbol_or_symbols=symbols)
+quotes = data_client.get_stock_latest_bar(request_params2)
 
 close = pd.DataFrame.from_dict({k: dict(v) for k, v in quotes.items()}, orient='index').reset_index(drop=True)
 close = close[['symbol', 'close']]
