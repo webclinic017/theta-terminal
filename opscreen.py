@@ -415,7 +415,7 @@ if today_str in nyse_schedule.index:
     start_date = datetime.date.today().strftime('%Y-%m-%d %H:%M:%S')
 
 else:
-    start_date = today_str
+    start_date = date
 
 request_params = StockBarsRequest(
     symbol_or_symbols=symbols,
