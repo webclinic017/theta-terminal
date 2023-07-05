@@ -2,6 +2,7 @@
 Option Screener
 
 A rudimental option scanner to help you find the best premium and options
- 
- <img src="https://drive.google.com/uc?export=download&id=1Xli12bzRVC5XtDlJcmxe0GrOWNKRXxXG"/>
+
+![usage-example](https://github.com/mvnchi/theta-terminal/blob/9e833deebf0921da29dab43895f16d20878097a7/files/example.gif)
+
 
