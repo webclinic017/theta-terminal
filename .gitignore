@@ -1,5 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
+opscreen.py
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -29,8 +30,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-opscreen.py
-/files
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
